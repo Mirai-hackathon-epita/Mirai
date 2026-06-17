@@ -357,8 +357,8 @@ export function WorkPanel({ exercise, onNextProblem, onAskHint, onFeedUpdate, on
         </div>
       )}
 
-      {/* Check answer button */}
-      {!gradeResult && (
+      {/* Check answer button — stays visible after wrong answers so student can retry */}
+      {(!gradeResult || !gradeResult.correct) && (
         <Button
           variant="primary"
           block

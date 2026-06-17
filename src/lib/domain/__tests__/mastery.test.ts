@@ -64,10 +64,10 @@ describe("updateMastery", () => {
     expect(updateMastery(1.0, true, 10)).toBeLessThanOrEqual(1);
   });
 
-  it("harder difficulty moves mastery more", () => {
+  it("applies a difficulty-independent delta", () => {
     const easyCorrect = updateMastery(0.5, true, 1);
     const hardCorrect = updateMastery(0.5, true, 10);
-    expect(hardCorrect).toBeGreaterThan(easyCorrect);
+    expect(hardCorrect).toBe(easyCorrect);
   });
 
   it("returns value rounded to 3 decimals", () => {

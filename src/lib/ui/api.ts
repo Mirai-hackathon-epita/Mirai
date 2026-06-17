@@ -60,11 +60,13 @@ export const api = {
     post<ChatResponse>(`/api/students/${id}/chat`, body),
   ask: (body: { question: string }) =>
     post<AskResponse>("/api/teacher/ask", body),
-  visualize: (body: { conceptId: string; currentKind?: string }) =>
+  visualize: (body: { conceptId: string; currentKind?: string; expression?: string; answer?: string }) =>
     post<{ visualization: VisualizationSpec }>(
       "/api/teacher/course/visualize",
       body,
     ),
+  resetProgress: (id: string) =>
+    post<{ ok: boolean }>(`/api/students/${id}/reset`, {}),
 
   // ── Phase 1: course upload + enrichment + publish ───────────────
   uploadCourse: (body: { text?: string; sourceName?: string }) =>

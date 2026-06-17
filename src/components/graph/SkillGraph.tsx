@@ -49,10 +49,22 @@ function NodeCard({ conceptId, col, row, cm, isFocus, isSelected, onClick }: Nod
   let textColor: string = C.ink;
 
   if (isFocus) {
-    bg = C.terracottaBg2;
-    border = `2px solid ${C.terracotta}`;
-    shadow = "0 6px 18px rgba(194,83,58,0.22)";
-    textColor = C.terracottaDark;
+    if (cm.status === "mastered") {
+      bg = C.greenBg;
+      border = `2px solid ${C.green}`;
+      shadow = "0 6px 18px rgba(92,138,110,0.22)";
+      textColor = C.greenDark;
+    } else if (cm.status === "developing") {
+      bg = C.amberBg2;
+      border = `2px solid ${C.amber}`;
+      shadow = "0 6px 18px rgba(194,138,44,0.22)";
+      textColor = C.amber;
+    } else {
+      bg = C.terracottaBg2;
+      border = `2px solid ${C.terracotta}`;
+      shadow = "0 6px 18px rgba(194,83,58,0.22)";
+      textColor = C.terracottaDark;
+    }
   } else if (isDeveloping) {
     border = `1.5px solid ${C.amber}`;
   } else if (isLocked) {
@@ -164,7 +176,7 @@ function NodeCard({ conceptId, col, row, cm, isFocus, isSelected, onClick }: Nod
                 flex: 1,
                 height: 4,
                 borderRadius: 2,
-                background: "#EBD6CF",
+                background: cm.status === "mastered" ? "#C8DDD0" : cm.status === "developing" ? "#EDD9A8" : "#EBD6CF",
                 overflow: "hidden",
                 display: "block",
               }}
@@ -174,7 +186,7 @@ function NodeCard({ conceptId, col, row, cm, isFocus, isSelected, onClick }: Nod
                   display: "block",
                   height: "100%",
                   width: `${masteryPct}%`,
-                  background: C.terracotta,
+                  background: color,
                 }}
               />
             </span>
@@ -182,7 +194,7 @@ function NodeCard({ conceptId, col, row, cm, isFocus, isSelected, onClick }: Nod
               style={{
                 fontFamily: FONT.mono,
                 fontSize: 10,
-                color: C.terracotta,
+                color,
               }}
             >
               {masteryPct}%

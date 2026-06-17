@@ -25,6 +25,8 @@ export function ProblemPanel({ exercise, problemNumber }: ProblemPanelProps) {
       const res = await api.visualize({
         conceptId: exercise.conceptId ?? "adding-unlike-fractions",
         currentKind: extraViz?.kind ?? exercise.visualization?.kind ?? "fraction-bars",
+        expression: exercise.expression,
+        answer: exercise.answer,
       });
       setExtraViz(res.visualization);
     } catch {
@@ -113,6 +115,24 @@ export function ProblemPanel({ exercise, problemNumber }: ProblemPanelProps) {
             {exercise.expression}
           </span>
         </div>
+      </div>
+
+      {/* Answer — visible for demo */}
+      <div style={{ textAlign: "center" }}>
+        <span
+          style={{
+            display: "inline-block",
+            fontFamily: FONT.mono,
+            fontSize: 12,
+            color: C.muted,
+            background: C.paper2,
+            border: `1px dashed ${C.line2}`,
+            borderRadius: 6,
+            padding: "3px 10px",
+          }}
+        >
+          Answer: {exercise.answer}
+        </span>
       </div>
 
       {/* Fraction-bar visualization card */}

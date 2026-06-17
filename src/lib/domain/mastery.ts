@@ -36,12 +36,10 @@ export function studentStatus(
 export function updateMastery(
   prior: number,
   correct: boolean,
-  difficulty: number,
+  _difficulty: number,
 ): number {
-  const weight = 0.18 + (difficulty / 10) * 0.12; // 0.18..0.30
-  const target = correct ? 1 : 0;
-  const next = prior + (target - prior) * weight;
-  return Math.max(0, Math.min(1, Number(next.toFixed(3))));
+  const delta = correct ? 0.3 : -0.1;
+  return Math.max(0, Math.min(1, Number((prior + delta).toFixed(3))));
 }
 
 export function pct(mastery: number): number {
