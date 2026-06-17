@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500;1,6..72,600&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#E7E5E1;padding:72px 0 120px;font-family:Geist,sans-serif;color:#161A22;">
+ <div style="width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:24px;">
+
+  <!-- HEADER -->
+  <div style="margin-bottom:8px;">
+    <div style="font-family:Geist Mono,monospace;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;color:#8B7B68;margin-bottom:12px;">Mira · Editorial Warm · Final screens</div>
+    <h1 style="font-family:Newsreader,serif;font-weight:500;font-size:46px;line-height:1.05;letter-spacing:-0.02em;margin:0 0 14px;">The autonomous tutor, in four screens.</h1>
+    <p style="font-size:17px;line-height:1.55;color:#5A5247;max-width:720px;margin:0;">Landing page, teacher dashboard, student workspace, and the per-student skill graph — all in the warm editorial direction.</p>
+  </div>
+
+  <!-- ============ 01 · LANDING ============ -->
+  <div>
+    <div style="display:flex;align-items:center;gap:14px;margin:16px 0 18px;">
+      <span style="font-family:Geist Mono,monospace;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:#8B7B68;">01 — Landing page</span>
+      <span style="flex:1;height:1px;background:rgba(22,26,34,0.12);"></span>
+    </div>
+    <div data-screen-label="Landing page" style="border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(60,40,20,0.16);border:1px solid rgba(0,0,0,0.06);background:#F7F2EA;">
+      <div style="height:42px;background:#EDE7DB;display:flex;align-items:center;padding:0 16px;gap:8px;border-bottom:1px solid rgba(22,26,34,0.07);">
+        <span style="width:11px;height:11px;border-radius:50%;background:#E0A89A;"></span>
+        <span style="width:11px;height:11px;border-radius:50%;background:#E8CFA0;"></span>
+        <span style="width:11px;height:11px;border-radius:50%;background:#AEC9B4;"></span>
+        <div style="margin-left:14px;background:#F7F2EA;border:1px solid rgba(22,26,34,0.08);border-radius:7px;height:24px;flex:1;max-width:360px;display:flex;align-items:center;padding:0 12px;font-family:Geist Mono,monospace;font-size:12px;color:#8B7B68;">mira.school</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 44px;">
+        <div style="font-family:Newsreader,serif;font-weight:600;font-size:24px;letter-spacing:-0.01em;">Mira<span style="color:#C2533A;">.</span></div>
+        <div style="display:flex;align-items:center;gap:28px;font-size:15px;color:#5A5247;">
+          <span>Product</span><span>For teachers</span><span>For students</span><span>Pricing</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:18px;">
+          <span style="font-size:15px;color:#5A5247;">Sign in</span>
+          <span style="background:#C2533A;color:#FBF7F0;border-radius:10px;padding:10px 18px;font-size:15px;font-weight:500;">Request a demo</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1.05fr 0.95fr;gap:52px;padding:48px 44px 56px;align-items:center;">
+        <div>
+          <div style="font-family:Geist Mono,monospace;font-size:13px;letter-spacing:0.05em;text-transform:uppercase;color:#C2533A;margin-bottom:18px;">Autonomous AI tutor</div>
+          <h1 style="font-family:Newsreader,serif;font-weight:500;font-size:56px;line-height:1.04;letter-spacing:-0.025em;margin:0 0 22px;">A tutor that pays attention to <em style="color:#C2533A;">every</em> student.</h1>
+          <p style="font-size:19px;line-height:1.55;color:#5A5247;margin:0 0 30px;max-width:46ch;">Upload your course. Mira builds personalized practice for each learner, grades the math they write by hand, and tells you exactly who to pull aside next.</p>
+          <div style="display:flex;align-items:center;gap:18px;margin-bottom:26px;">
+            <span style="background:#C2533A;color:#FBF7F0;border-radius:10px;padding:14px 26px;font-size:16px;font-weight:500;">Request a demo</span>
+            <span style="font-size:16px;color:#161A22;font-weight:500;border-bottom:1.5px solid rgba(22,26,34,0.25);padding-bottom:2px;">See how it works →</span>
+          </div>
+          <div style="font-family:Geist Mono,monospace;font-size:13px;color:#8B7B68;">Built for grades 6–8 · Works with the course you already teach</div>
+        </div>
+        <div style="background:#FCFAF6;border:1px solid rgba(22,26,34,0.08);border-radius:18px;box-shadow:0 10px 30px rgba(60,40,20,0.08);padding:24px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+            <span style="font-family:Geist Mono,monospace;font-size:12px;color:#8B7B68;">Handwritten · read &amp; graded by Mira</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#DDE9E1;color:#3F6A4F;border-radius:999px;padding:4px 11px;font-size:12px;font-weight:600;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Correct
+            </span>
+          </div>
+          <div style="font-family:Caveat,cursive;font-size:34px;line-height:1.35;color:#232934;background:linear-gradient(transparent 30px,rgba(44,74,223,0.08) 31px) 0 0 / 100% 32px;padding:2px 4px 6px;">
+            ¾ + ⅙<br>= 9⁄12 + 2⁄12<br>= 11⁄12
+          </div>
+          <div style="height:1px;background:rgba(22,26,34,0.08);margin:18px 0;"></div>
+          <div style="display:flex;align-items:flex-start;gap:10px;">
+            <div style="width:24px;height:24px;border-radius:50%;background:#C2533A;flex:none;display:flex;align-items:center;justify-content:center;font-family:Newsreader,serif;color:#FBF7F0;font-size:14px;font-weight:600;">M</div>
+            <p style="font-size:14px;line-height:1.5;color:#3A424F;margin:0;">Nice — you found the common denominator on your own. I'll nudge the next one a little harder.</p>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:16px;">
+            <span style="font-family:Geist Mono,monospace;font-size:11px;color:#5A5247;background:#F1ECE2;border-radius:6px;padding:4px 9px;">Fractions</span>
+            <span style="font-family:Geist Mono,monospace;font-size:11px;color:#5A5247;background:#F1ECE2;border-radius:6px;padding:4px 9px;">Difficulty 4 / 10</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:#F1ECE2;padding:44px;">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:28px;">
+          <div>
+            <div style="width:40px;height:40px;border-radius:10px;background:#F6E2D9;color:#C2533A;display:flex;align-items:center;justify-content:center;margin-bottom:14px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 2a10 10 0 0 1 0 20M12 2a10 10 0 0 0 0 20" opacity="0.5"></path><circle cx="12" cy="2" r="1.4" fill="currentColor"></circle></svg></div>
+            <h4 style="font-size:17px;font-weight:600;margin:0 0 7px;">Works on its own</h4>
+            <p style="font-size:14px;line-height:1.5;color:#5A5247;margin:0;">Generates personalized exercises for every student and adjusts difficulty as they go.</p>
+          </div>
+          <div>
+            <div style="width:40px;height:40px;border-radius:10px;background:#DCE3FB;color:#2C4ADF;display:flex;align-items:center;justify-content:center;margin-bottom:14px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.4"></circle><circle cx="18" cy="9" r="2.4"></circle><circle cx="9" cy="18" r="2.4"></circle><path d="M8 7l8 1.4M7.6 16l1.6-7"></path></svg></div>
+            <h4 style="font-size:17px;font-weight:600;margin:0 0 7px;">A skill graph per student</h4>
+            <p style="font-size:14px;line-height:1.5;color:#5A5247;margin:0;">Maps each learner's strengths and gaps, and remembers everything across the year.</p>
+          </div>
+          <div>
+            <div style="width:40px;height:40px;border-radius:10px;background:#DDE9E1;color:#3F6A4F;display:flex;align-items:center;justify-content:center;margin-bottom:14px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"></path></svg></div>
+            <h4 style="font-size:17px;font-weight:600;margin:0 0 7px;">Grades handwriting</h4>
+            <p style="font-size:14px;line-height:1.5;color:#5A5247;margin:0;">Students solve on paper or screen. Mira reads their handwritten math and grades it instantly.</p>
+          </div>
+          <div>
+            <div style="width:40px;height:40px;border-radius:10px;background:#F5E5C7;color:#C28A2C;display:flex;align-items:center;justify-content:center;margin-bottom:14px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.5 21a1.7 1.7 0 0 1-3 0"></path></svg></div>
+            <h4 style="font-size:17px;font-weight:600;margin:0 0 7px;">Tells you who to help</h4>
+            <p style="font-size:14px;line-height:1.5;color:#5A5247;margin:0;">Weekly feedback surfaces the students who are stuck — so you know who to pull aside in tutorial.</p>
+          </div>
+        </div>
+      </div>
+      <div style="padding:56px 44px;text-align:center;">
+        <h2 style="font-family:Newsreader,serif;font-weight:500;font-size:38px;letter-spacing:-0.02em;margin:0 0 20px;">Bring Mira to your classroom.</h2>
+        <span style="background:#C2533A;color:#FBF7F0;border-radius:10px;padding:14px 30px;font-size:16px;font-weight:500;">Request a demo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 02 · DASHBOARD ============ -->
+  <div>
+    <div style="display:flex;align-items:center;gap:14px;margin:32px 0 18px;">
+      <span style="font-family:Geist Mono,monospace;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:#8B7B68;">02 — Teacher dashboard</span>
+      <span style="flex:1;height:1px;background:rgba(22,26,34,0.12);"></span>
+    </div>
+    <div data-screen-label="Teacher dashboard" style="border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(60,40,20,0.16);border:1px solid rgba(0,0,0,0.06);background:#F7F2EA;display:flex;height:840px;">
+      <div style="width:230px;flex:none;background:#FCFAF6;border-right:1px solid rgba(22,26,34,0.08);padding:22px 18px;display:flex;flex-direction:column;">
+        <div style="font-family:Newsreader,serif;font-weight:600;font-size:22px;padding:0 8px 22px;">Mira<span style="color:#C2533A;">.</span></div>
+        <div style="display:flex;flex-direction:column;gap:2px;">
+          <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;background:#F6E2D9;color:#C2533A;font-size:14px;font-weight:500;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>Overview</div>
+          <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;color:#5A5247;font-size:14px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path></svg>Students</div>
+          <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;color:#5A5247;font-size:14px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9z"></path></svg>Activity</div>
+          <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;color:#5A5247;font-size:14px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>Course library</div>
+          <div style="display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:9px;color:#5A5247;font-size:14px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-2.82 1.17V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 3.6 14H3.5a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 5 8.6"></path></svg>Settings</div>
+        </div>
+        <div style="margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px 8px;border-top:1px solid rgba(22,26,34,0.08);">
+          <div style="width:34px;height:34px;border-radius:50%;background:#2C4ADF;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;">DR</div>
+          <div><div style="font-size:13px;font-weight:600;">Ms. Rivera</div><div style="font-family:Geist Mono,monospace;font-size:11px;color:#8B7B68;">Grade 7 · Math</div></div>
+        </div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;overflow:hidden;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 28px;border-bottom:1px solid rgba(22,26,34,0.08);">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <h3 style="font-family:Newsreader,serif;font-weight:600;font-size:22px;margin:0;">Grade 7 · Period 3</h3>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B7B68" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+          <div style="display:flex;align-items:center;gap:14px;font-family:Geist Mono,monospace;font-size:12px;color:#8B7B68;">Tue, Mar 18 · 9:30 AM</div>
+        </div>
+        <div style="padding:24px 28px;overflow:auto;">
+          <div style="display:grid;grid-template-columns:repeat(2,minmax(0,280px));gap:16px;margin-bottom:24px;">
+            <div style="background:#FCFAF6;border:1px solid rgba(22,26,34,0.08);border-radius:14px;padding:18px;">
+              <div style="font-family:Geist Mono,monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#8B7B68;margin-bottom:10px;">Avg mastery</div>
+              <div style="font-family:Geist Mono,monospace;font-size:30px;font-weight:500;">71%<span style="font-size:13px;color:#5C8A6E;margin-left:7px;">↑ 4</span></div>
+            </div>
+            <div style="background:#F6E2D9;border:1px solid rgba(194,83,58,0.25);border-radius:14px;padding:18px;">
+              <div style="font-family:Geist Mono,monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#C2533A;margin-bottom:10px;">Needs attention</div>
+              <div style="font-family:Geist Mono,monospace;font-size:30px;font-weight:500;color:#C2533A;">4</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:16px;">
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div style="background:#FCFAF6;border:1px solid rgba(22,26,34,0.08);border-radius:14px;padding:20px;order:2;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                  <span style="width:7px;height:7px;border-radius:50%;background:#C2533A;"></span>
+                  <h4 style="font-size:15px;font-weight:600;margin:0;">Mira flagged these students</h4>
+                </div>
+                <p style="font-size:13px;color:#8B7B68;margin:0 0 16px;">Pull these aside in today's tutorial.</p>
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                  <div style="display:flex;gap:13px;align-items:flex-start;">
+                    <div style="width:32px;height:32px;border-radius:50%;background:#E7E0D2;color:#5A5247;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none;">MC</div>
+                    <div style="flex:1;"><div style="font-size:14px;font-weight:600;">Maya Chen <span style="font-weight:400;color:#A8392E;font-size:12px;font-family:Geist Mono,monospace;margin-left:4px;">3 failed attempts</span></div><div style="font-size:13px;color:#5A5247;">Stuck on adding fractions with unlike denominators. Mira suggests reteaching common denominators.</div></div>
+                  </div>
+                  <div style="display:flex;gap:13px;align-items:flex-start;">
+                    <div style="width:32px;height:32px;border-radius:50%;background:#E7E0D2;color:#5A5247;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none;">LP</div>
+                    <div style="flex:1;"><div style="font-size:14px;font-weight:600;">Liam Patel <span style="font-weight:400;color:#C28A2C;font-size:12px;font-family:Geist Mono,monospace;margin-left:4px;">low confidence</span></div><div style="font-size:13px;color:#5A5247;">Guessing on two-step equations — correct answers, slow and uncertain.</div></div>
+                  </div>
+                  <div style="display:flex;gap:13px;align-items:flex-start;">
+                    <div style="width:32px;height:32px;border-radius:50%;background:#E7E0D2;color:#5A5247;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none;">SR</div>
+                    <div style="flex:1;"><div style="font-size:14px;font-weight:600;">Sofia Reyes <span style="font-weight:400;color:#C28A2C;font-size:12px;font-family:Geist Mono,monospace;margin-left:4px;">recurring slip</span></div><div style="font-size:13px;color:#5A5247;">Sign errors when subtracting negative integers.</div></div>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#FCFAF6;border:1px solid rgba(22,26,34,0.08);border-radius:14px;padding:20px;order:1;">
+                <h4 style="font-size:15px;font-weight:600;margin:0 0 14px;">Class roster</h4>
+                <div style="display:grid;grid-template-columns:1.4fr 1.4fr 0.9fr 0.8fr;font-family:Geist Mono,monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#8B7B68;padding-bottom:10px;border-bottom:1px solid rgba(22,26,34,0.08);">
+                  <span>Student</span><span>Current topic</span><span>Mastery</span><span>Status</span>
+                </div>
+                <div style="display:grid;grid-template-columns:1.4fr 1.4fr 0.9fr 0.8fr;align-items:center;padding:11px 0;border-bottom:1px solid rgba(22,26,34,0.05);font-size:13.5px;">
+                  <span style="font-weight:500;">Maya Chen</span><span style="color:#5A5247;">Fractions</span>
+                  <span style="display:flex;align-items:center;gap:7px;"><span style="width:42px;height:5px;border-radius:3px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:38%;background:#A8392E;"></span></span><span style="font-family:Geist Mono,monospace;font-size:12px;">38%</span></span>
+                  <span><span style="font-size:11px;font-weight:600;color:#A8392E;background:#F2D8D4;border-radius:6px;padding:3px 8px;">Stuck</span></span>
+                </div>
+                <div style="display:grid;grid-template-columns:1.4fr 1.4fr 0.9fr 0.8fr;align-items:center;padding:11px 0;border-bottom:1px solid rgba(22,26,34,0.05);font-size:13.5px;">
+                  <span style="font-weight:500;">Liam Patel</span><span style="color:#5A5247;">Two-step equations</span>
+                  <span style="display:flex;align-items:center;gap:7px;"><span style="width:42px;height:5px;border-radius:3px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:52%;background:#C28A2C;"></span></span><span style="font-family:Geist Mono,monospace;font-size:12px;">52%</span></span>
+                  <span><span style="font-size:11px;font-weight:600;color:#C28A2C;background:#F5E5C7;border-radius:6px;padding:3px 8px;">Review</span></span>
+                </div>
+                <div style="display:grid;grid-template-columns:1.4fr 1.4fr 0.9fr 0.8fr;align-items:center;padding:11px 0;border-bottom:1px solid rgba(22,26,34,0.05);font-size:13.5px;">
+                  <span style="font-weight:500;">Sofia Reyes</span><span style="color:#5A5247;">Integers</span>
+                  <span style="display:flex;align-items:center;gap:7px;"><span style="width:42px;height:5px;border-radius:3px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:61%;background:#5C8A6E;"></span></span><span style="font-family:Geist Mono,monospace;font-size:12px;">61%</span></span>
+                  <span><span style="font-size:11px;font-weight:600;color:#5A5247;background:#F1ECE2;border-radius:6px;padding:3px 8px;">On track</span></span>
+                </div>
+                <div style="display:grid;grid-template-columns:1.4fr 1.4fr 0.9fr 0.8fr;align-items:center;padding:11px 0;border-bottom:1px solid rgba(22,26,34,0.05);font-size:13.5px;">
+                  <span style="font-weight:500;">Emma Davis</span><span style="color:#5A5247;">Two-step equations</span>
+                  <span style="display:flex;align-items:center;gap:7px;"><span style="width:42px;height:5px;border-radius:3px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:74%;background:#5C8A6E;"></span></span><span style="font-family:Geist Mono,monospace;font-size:12px;">74%</span></span>
+                  <span><span style="font-size:11px;font-weight:600;color:#5A5247;background:#F1ECE2;border-radius:6px;padding:3px 8px;">On track</span></span>
+                </div>
+                <div style="display:grid;grid-template-columns:1.4fr 1.4fr 0.9fr 0.8fr;align-items:center;padding:11px 0;font-size:13.5px;">
+                  <span style="font-weight:500;">Noah Kim</span><span style="color:#5A5247;">Ratios &amp; proportions</span>
+                  <span style="display:flex;align-items:center;gap:7px;"><span style="width:42px;height:5px;border-radius:3px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:88%;background:#5C8A6E;"></span></span><span style="font-family:Geist Mono,monospace;font-size:12px;">88%</span></span>
+                  <span><span style="font-size:11px;font-weight:600;color:#3F6A4F;background:#DDE9E1;border-radius:6px;padding:3px 8px;">Ahead</span></span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div style="background:#FCFAF6;border:1px solid rgba(22,26,34,0.08);border-radius:14px;padding:20px;order:2;">
+                <h4 style="font-size:15px;font-weight:600;margin:0 0 16px;">Mira's activity</h4>
+                <div style="display:flex;flex-direction:column;gap:15px;">
+                  <div style="display:flex;gap:11px;"><span style="font-family:Geist Mono,monospace;font-size:11px;color:#8B7B68;width:42px;flex:none;padding-top:1px;">9:24</span><span style="font-size:13px;color:#3A424F;line-height:1.45;">Generated 12 easier fraction exercises for <b style="font-weight:600;color:#161A22;">Maya</b>.</span></div>
+                  <div style="display:flex;gap:11px;"><span style="font-family:Geist Mono,monospace;font-size:11px;color:#8B7B68;width:42px;flex:none;padding-top:1px;">9:02</span><span style="font-size:13px;color:#3A424F;line-height:1.45;">Graded <b style="font-weight:600;color:#161A22;">28 handwritten</b> submissions from Period 3.</span></div>
+                  <div style="display:flex;gap:11px;"><span style="font-family:Geist Mono,monospace;font-size:11px;color:#8B7B68;width:42px;flex:none;padding-top:1px;">8:47</span><span style="font-size:13px;color:#3A424F;line-height:1.45;">Flagged <b style="font-weight:600;color:#161A22;">Liam</b> — confidence dropping on equations.</span></div>
+                  <div style="display:flex;gap:11px;"><span style="font-family:Geist Mono,monospace;font-size:11px;color:#8B7B68;width:42px;flex:none;padding-top:1px;">Mon</span><span style="font-size:13px;color:#3A424F;line-height:1.45;">Added a "balancing equations" animation to the Two-step unit.</span></div>
+                </div>
+              </div>
+              <div style="background:#FCFAF6;border:1px solid rgba(22,26,34,0.08);border-radius:14px;padding:20px;order:1;">
+                <h4 style="font-size:15px;font-weight:600;margin:0 0 16px;">Class mastery by topic</h4>
+                <div style="display:flex;flex-direction:column;gap:13px;">
+                  <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Fractions</span><span style="font-family:Geist Mono,monospace;color:#8B7B68;">58%</span></div><div style="height:6px;border-radius:3px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:58%;background:#C2533A;"></span></div></div>
+                  <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Integers</span><span style="font-family:Geist Mono,monospace;color:#8B7B68;">70%</span></div><div style="height:6px;border-radius:3px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:70%;background:#5C8A6E;"></span></div></div>
+                  <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Two-step equations</span><span style="font-family:Geist Mono,monospace;color:#8B7B68;">64%</span></div><div style="height:6px;border-radius:3px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:64%;background:#5C8A6E;"></span></div></div>
+                  <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Ratios &amp; proportions</span><span style="font-family:Geist Mono,monospace;color:#8B7B68;">81%</span></div><div style="height:6px;border-radius:3px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:81%;background:#5C8A6E;"></span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 03 · STUDENT WORKSPACE ============ -->
+  <div>
+    <div style="display:flex;align-items:center;gap:14px;margin:32px 0 18px;">
+      <span style="font-family:Geist Mono,monospace;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:#8B7B68;">03 — Student workspace</span>
+      <span style="font-family:Geist Mono,monospace;font-size:12px;color:#A89D89;">Tablet · 1180 × 820</span>
+      <span style="flex:1;height:1px;background:rgba(22,26,34,0.12);"></span>
+    </div>
+    <div data-screen-label="Student workspace" style="border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(60,40,20,0.16);border:1px solid rgba(0,0,0,0.06);background:#F7F2EA;height:820px;display:flex;flex-direction:column;">
+      <!-- top bar -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 28px;background:#FCFAF6;border-bottom:1px solid rgba(22,26,34,0.08);flex:none;">
+        <div style="display:flex;align-items:center;gap:18px;">
+          <div style="font-family:Newsreader,serif;font-weight:600;font-size:20px;">Mira<span style="color:#C2533A;">.</span></div>
+          <div style="display:flex;align-items:center;gap:9px;">
+            <span style="font-family:Geist Mono,monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#8B7B68;">Fractions</span>
+            <div style="display:flex;gap:4px;">
+              <span style="width:22px;height:5px;border-radius:3px;background:#5C8A6E;"></span>
+              <span style="width:22px;height:5px;border-radius:3px;background:#5C8A6E;"></span>
+              <span style="width:22px;height:5px;border-radius:3px;background:#C2533A;"></span>
+              <span style="width:22px;height:5px;border-radius:3px;background:#E7E0D2;"></span>
+              <span style="width:22px;height:5px;border-radius:3px;background:#E7E0D2;"></span>
+              <span style="width:22px;height:5px;border-radius:3px;background:#E7E0D2;"></span>
+              <span style="width:22px;height:5px;border-radius:3px;background:#E7E0D2;"></span>
+              <span style="width:22px;height:5px;border-radius:3px;background:#E7E0D2;"></span>
+            </div>
+            <span style="font-family:Geist Mono,monospace;font-size:12px;color:#8B7B68;">3 / 8</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <span style="display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:500;color:#C2533A;background:#F6E2D9;border:1px solid rgba(194,83,58,0.28);border-radius:10px;padding:8px 14px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"></path><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"></path><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"></path><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path></svg>Call teacher</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:13px;color:#5A5247;">Maya</span><div style="width:30px;height:30px;border-radius:50%;background:#E7E0D2;color:#5A5247;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;">MC</div></div>
+        </div>
+      </div>
+      <!-- body -->
+      <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:0;overflow:hidden;">
+        <!-- LEFT: problem -->
+        <div style="padding:28px 30px;overflow:auto;border-right:1px solid rgba(22,26,34,0.08);display:flex;flex-direction:column;gap:20px;">
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+              <span style="font-family:Geist Mono,monospace;font-size:12px;letter-spacing:0.04em;text-transform:uppercase;color:#8B7B68;">Problem 3</span>
+              <span style="display:inline-flex;align-items:center;gap:8px;font-family:Geist Mono,monospace;font-size:11px;color:#5A5247;background:#F6E2D9;border-radius:6px;padding:5px 10px;"><span style="color:#C2533A;font-weight:600;">Difficulty 4 / 10</span></span>
+            </div>
+            <p style="font-size:15px;color:#5A5247;margin:0 0 12px;line-height:1.5;">Add these two fractions. Show each step, then write your answer in lowest terms.</p>
+            <div style="background:#FCFAF6;border:1px solid rgba(22,26,34,0.08);border-radius:16px;padding:30px 28px;text-align:center;">
+              <span style="font-family:Newsreader,serif;font-size:54px;font-weight:500;letter-spacing:0.01em;">¾ + ⅙ = ?</span>
+            </div>
+          </div>
+          <!-- interactive visualization slot -->
+          <div style="background:#FCFAF6;border:1px solid rgba(22,26,34,0.08);border-radius:16px;padding:20px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+              <div style="display:flex;align-items:center;gap:8px;"><span style="width:7px;height:7px;border-radius:50%;background:#2C4ADF;"></span><h4 style="font-size:14px;font-weight:600;margin:0;">Made for you — fraction bars</h4></div>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-family:Geist Mono,monospace;font-size:11px;color:#2C4ADF;background:#DCE3FB;border-radius:6px;padding:4px 9px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20"></polygon></svg>Interactive</span>
+            </div>
+            <div style="margin-bottom:14px;">
+              <div style="display:flex;justify-content:space-between;font-family:Geist Mono,monospace;font-size:11px;color:#8B7B68;margin-bottom:5px;"><span>¾ = 9⁄12</span><span>three quarters</span></div>
+              <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:3px;height:34px;">
+                <span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span>
+              </div>
+            </div>
+            <div style="margin-bottom:14px;">
+              <div style="display:flex;justify-content:space-between;font-family:Geist Mono,monospace;font-size:11px;color:#8B7B68;margin-bottom:5px;"><span>⅙ = 2⁄12</span><span>one sixth</span></div>
+              <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:3px;height:34px;">
+                <span style="background:#2C4ADF;border-radius:3px;"></span><span style="background:#2C4ADF;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-family:Geist Mono,monospace;font-size:11px;color:#8B7B68;margin-bottom:5px;"><span style="color:#3F6A4F;font-weight:600;">together = 11⁄12</span><span>same twelfths</span></div>
+              <div style="display:grid;grid-template-columns:repeat(12,1fr);gap:3px;height:34px;">
+                <span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#C2533A;border-radius:3px;"></span><span style="background:#2C4ADF;border-radius:3px;"></span><span style="background:#2C4ADF;border-radius:3px;"></span><span style="background:#EFE7D8;border-radius:3px;"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- RIGHT: handwriting + feedback -->
+        <div style="padding:28px 30px;overflow:auto;display:flex;flex-direction:column;gap:18px;background:#F3EEE4;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <h4 style="font-size:14px;font-weight:600;margin:0;">Your work</h4>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="width:30px;height:30px;border-radius:8px;background:#FCFAF6;border:1px solid rgba(22,26,34,0.1);display:flex;align-items:center;justify-content:center;color:#5A5247;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg></span>
+              <span style="width:30px;height:30px;border-radius:8px;background:#FCFAF6;border:1px solid rgba(22,26,34,0.1);display:flex;align-items:center;justify-content:center;color:#5A5247;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16a2 2 0 0 1 0-3l8-8a2 2 0 0 1 3 0l5 5a2 2 0 0 1 0 3l-7 7"></path><path d="M6 13l5 5"></path></svg></span>
+              <span style="width:30px;height:30px;border-radius:8px;background:#FCFAF6;border:1px solid rgba(22,26,34,0.1);display:flex;align-items:center;justify-content:center;color:#5A5247;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"></path><path d="M3 13a9 9 0 1 0 3-7.7L3 8"></path></svg></span>
+            </div>
+          </div>
+          <!-- handwriting canvas -->
+          <div style="position:relative;background:#FCFAF6;border:1px solid rgba(22,26,34,0.1);border-radius:14px;padding:22px 24px;min-height:230px;background-image:linear-gradient(rgba(44,74,223,0.06) 1px, transparent 1px);background-size:100% 38px;background-position:0 20px;">
+            <span style="position:absolute;top:12px;right:14px;display:inline-flex;align-items:center;gap:6px;font-family:Geist Mono,monospace;font-size:10.5px;color:#8B7B68;background:#F1ECE2;border-radius:5px;padding:3px 8px;"><span style="width:6px;height:6px;border-radius:50%;background:#5C8A6E;"></span>read by OCR</span>
+            <div style="font-family:Caveat,cursive;font-size:40px;line-height:38px;color:#232934;padding-top:2px;">
+              ¾ + ⅙<br>= 9⁄12 + 2⁄12<br>= 11⁄12
+            </div>
+          </div>
+          <!-- OCR readback -->
+          <div style="display:flex;align-items:center;gap:9px;font-family:Geist Mono,monospace;font-size:12px;color:#5A5247;background:#FCFAF6;border:1px solid rgba(22,26,34,0.08);border-radius:10px;padding:11px 14px;">
+            <span style="color:#2C4ADF;">Mira read →</span> 3/4 + 1/6 = 9/12 + 2/12 = 11/12
+          </div>
+          <!-- feedback -->
+          <div style="background:#FCFAF6;border:1px solid rgba(92,138,110,0.4);border-radius:14px;padding:18px;">
+            <div style="display:flex;align-items:center;gap:9px;margin-bottom:10px;">
+              <span style="width:24px;height:24px;border-radius:50%;background:#5C8A6E;display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              <span style="font-size:15px;font-weight:600;color:#3F6A4F;">Correct — and you showed every step.</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;">
+              <div style="width:24px;height:24px;border-radius:50%;background:#C2533A;flex:none;display:flex;align-items:center;justify-content:center;font-family:Newsreader,serif;color:#FBF7F0;font-size:13px;font-weight:600;">M</div>
+              <p style="font-size:14px;line-height:1.5;color:#3A424F;margin:0;">You found the common denominator on your own this time — that's the step you missed yesterday. I'll nudge the next one to <b style="font-weight:600;">difficulty 5</b> and bring in a subtraction.</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:4px;">
+            <span style="background:#C2533A;color:#FBF7F0;border-radius:10px;padding:13px 24px;font-size:15px;font-weight:500;flex:1;text-align:center;">Next problem →</span>
+            <span style="background:#FCFAF6;border:1px solid rgba(22,26,34,0.14);color:#5A5247;border-radius:10px;padding:13px 20px;font-size:15px;font-weight:500;">Ask Mira for a hint</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 04 · SKILL GRAPH ============ -->
+  <div>
+    <div style="display:flex;align-items:center;gap:14px;margin:32px 0 18px;">
+      <span style="font-family:Geist Mono,monospace;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:#8B7B68;">04 — Skill graph view</span>
+      <span style="flex:1;height:1px;background:rgba(22,26,34,0.12);"></span>
+    </div>
+    <div data-screen-label="Skill graph view" style="border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(60,40,20,0.16);border:1px solid rgba(0,0,0,0.06);background:#F7F2EA;height:760px;display:flex;flex-direction:column;">
+      <!-- top bar -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:#FCFAF6;border-bottom:1px solid rgba(22,26,34,0.08);flex:none;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#5A5247;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path></svg>Dashboard</span>
+          <span style="width:1px;height:18px;background:rgba(22,26,34,0.14);"></span>
+          <div style="width:30px;height:30px;border-radius:50%;background:#E7E0D2;color:#5A5247;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;">MC</div>
+          <h3 style="font-family:Newsreader,serif;font-weight:600;font-size:21px;margin:0;">Your skill graph</h3>
+        </div>
+        <div style="display:flex;align-items:center;gap:22px;">
+          <div style="text-align:right;"><div style="font-family:Geist Mono,monospace;font-size:10.5px;letter-spacing:0.04em;text-transform:uppercase;color:#8B7B68;">Overall mastery</div><div style="font-family:Geist Mono,monospace;font-size:20px;font-weight:500;">64%</div></div>
+          <div style="display:flex;align-items:center;gap:16px;font-size:12px;color:#5A5247;">
+            <span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:3px;background:#5C8A6E;"></span>Mastered</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:3px;background:#C28A2C;"></span>Developing</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:3px;background:#C2533A;"></span>Needs work</span>
+            <span style="display:inline-flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:3px;background:#CFC6B5;"></span>Not started</span>
+          </div>
+        </div>
+      </div>
+      <!-- body -->
+      <div style="flex:1;display:flex;overflow:hidden;">
+        <!-- graph canvas -->
+        <div style="flex:1;position:relative;overflow:hidden;background:#F7F2EA;background-image:radial-gradient(rgba(22,26,34,0.05) 1px, transparent 1px);background-size:26px 26px;">
+          <div style="position:absolute;top:40px;left:40px;width:870px;height:430px;">
+            <svg width="870" height="430" style="position:absolute;top:0;left:0;overflow:visible;">
+              <path d="M192,96 C222,96 220,146 250,146" fill="none" stroke="rgba(22,26,34,0.18)" stroke-width="1.5"></path>
+              <path d="M192,236 C222,236 220,160 250,150" fill="none" stroke="rgba(22,26,34,0.18)" stroke-width="1.5"></path>
+              <path d="M192,376 C222,376 220,160 250,156" fill="none" stroke="rgba(22,26,34,0.18)" stroke-width="1.5"></path>
+              <path d="M418,146 C448,146 446,146 476,146" fill="none" stroke="#C2533A" stroke-width="2" stroke-dasharray="5 4"></path>
+              <path d="M418,326 C448,326 446,170 476,156" fill="none" stroke="#C2533A" stroke-width="2" stroke-dasharray="5 4"></path>
+              <path d="M418,146 C448,146 446,300 476,316" fill="none" stroke="rgba(22,26,34,0.18)" stroke-width="1.5"></path>
+              <path d="M644,146 C674,146 672,146 702,146" fill="none" stroke="rgba(22,26,34,0.14)" stroke-width="1.5"></path>
+              <path d="M644,156 C674,170 672,310 702,326" fill="none" stroke="rgba(22,26,34,0.14)" stroke-width="1.5"></path>
+            </svg>
+            <div style="position:absolute;left:24px;top:70px;width:168px;height:52px;background:#FCFAF6;border:1px solid rgba(22,26,34,0.1);border-radius:12px;padding:9px 13px;box-shadow:0 1px 2px rgba(22,26,34,0.04);">
+              <div style="font-size:12.5px;font-weight:600;line-height:1.15;margin-bottom:6px;">Whole-number operations</div>
+              <div style="display:flex;align-items:center;gap:7px;"><span style="flex:1;height:4px;border-radius:2px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:96%;background:#5C8A6E;"></span></span><span style="font-family:Geist Mono,monospace;font-size:10px;color:#5C8A6E;">96%</span></div>
+            </div>
+            <div style="position:absolute;left:24px;top:210px;width:168px;height:52px;background:#FCFAF6;border:1px solid rgba(22,26,34,0.1);border-radius:12px;padding:9px 13px;box-shadow:0 1px 2px rgba(22,26,34,0.04);">
+              <div style="font-size:12.5px;font-weight:600;line-height:1.15;margin-bottom:6px;">Equivalent fractions</div>
+              <div style="display:flex;align-items:center;gap:7px;"><span style="flex:1;height:4px;border-radius:2px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:90%;background:#5C8A6E;"></span></span><span style="font-family:Geist Mono,monospace;font-size:10px;color:#5C8A6E;">90%</span></div>
+            </div>
+            <div style="position:absolute;left:24px;top:350px;width:168px;height:52px;background:#FCFAF6;border:1px solid rgba(22,26,34,0.1);border-radius:12px;padding:9px 13px;box-shadow:0 1px 2px rgba(22,26,34,0.04);">
+              <div style="font-size:12.5px;font-weight:600;line-height:1.15;margin-bottom:6px;">Multiples &amp; factors</div>
+              <div style="display:flex;align-items:center;gap:7px;"><span style="flex:1;height:4px;border-radius:2px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:84%;background:#5C8A6E;"></span></span><span style="font-family:Geist Mono,monospace;font-size:10px;color:#5C8A6E;">84%</span></div>
+            </div>
+            <div style="position:absolute;left:250px;top:120px;width:168px;height:52px;background:#FCFAF6;border:1.5px solid #C28A2C;border-radius:12px;padding:9px 13px;box-shadow:0 1px 2px rgba(22,26,34,0.04);">
+              <div style="font-size:12.5px;font-weight:600;line-height:1.15;margin-bottom:6px;">Common denominators</div>
+              <div style="display:flex;align-items:center;gap:7px;"><span style="flex:1;height:4px;border-radius:2px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:54%;background:#C28A2C;"></span></span><span style="font-family:Geist Mono,monospace;font-size:10px;color:#C28A2C;">54%</span></div>
+            </div>
+            <div style="position:absolute;left:250px;top:300px;width:168px;height:52px;background:#FCFAF6;border:1px solid rgba(22,26,34,0.1);border-radius:12px;padding:9px 13px;box-shadow:0 1px 2px rgba(22,26,34,0.04);">
+              <div style="font-size:12.5px;font-weight:600;line-height:1.15;margin-bottom:6px;">Adding like fractions</div>
+              <div style="display:flex;align-items:center;gap:7px;"><span style="flex:1;height:4px;border-radius:2px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:88%;background:#5C8A6E;"></span></span><span style="font-family:Geist Mono,monospace;font-size:10px;color:#5C8A6E;">88%</span></div>
+            </div>
+            <div style="position:absolute;left:476px;top:120px;width:168px;height:52px;background:#FBEDE9;border:2px solid #C2533A;border-radius:12px;padding:0 13px;box-shadow:0 6px 18px rgba(194,83,58,0.22);display:flex;flex-direction:column;justify-content:center;gap:6px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;"><div style="font-size:12.5px;font-weight:700;line-height:1.1;color:#A8392E;">Adding unlike fractions</div><span style="font-family:Geist Mono,monospace;font-size:8.5px;font-weight:600;letter-spacing:0.04em;color:#fff;background:#C2533A;border-radius:4px;padding:2px 5px;flex:none;">NOW</span></div>
+              <div style="display:flex;align-items:center;gap:7px;"><span style="flex:1;height:4px;border-radius:2px;background:#EBD6CF;overflow:hidden;"><span style="display:block;height:100%;width:38%;background:#C2533A;"></span></span><span style="font-family:Geist Mono,monospace;font-size:10px;color:#C2533A;">38%</span></div>
+            </div>
+            <div style="position:absolute;left:476px;top:300px;width:168px;height:52px;background:#FCFAF6;border:1px solid rgba(22,26,34,0.1);border-radius:12px;padding:9px 13px;box-shadow:0 1px 2px rgba(22,26,34,0.04);">
+              <div style="font-size:12.5px;font-weight:600;line-height:1.15;margin-bottom:6px;">Comparing fractions</div>
+              <div style="display:flex;align-items:center;gap:7px;"><span style="flex:1;height:4px;border-radius:2px;background:#E7E0D2;overflow:hidden;"><span style="display:block;height:100%;width:62%;background:#C28A2C;"></span></span><span style="font-family:Geist Mono,monospace;font-size:10px;color:#C28A2C;">62%</span></div>
+            </div>
+            <div style="position:absolute;left:702px;top:120px;width:168px;height:52px;background:#F2EDE3;border:1px dashed rgba(22,26,34,0.22);border-radius:12px;padding:9px 13px;">
+              <div style="display:flex;align-items:center;gap:6px;color:#9A8F7C;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><span style="font-size:12.5px;font-weight:600;line-height:1.15;">Subtracting fractions</span></div>
+              <div style="font-family:Geist Mono,monospace;font-size:10px;color:#A89D89;margin-top:8px;">Locked · needs the gap closed</div>
+            </div>
+            <div style="position:absolute;left:702px;top:300px;width:168px;height:52px;background:#F2EDE3;border:1px dashed rgba(22,26,34,0.22);border-radius:12px;padding:9px 13px;">
+              <div style="display:flex;align-items:center;gap:6px;color:#9A8F7C;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg><span style="font-size:12.5px;font-weight:600;line-height:1.15;">Mixed numbers</span></div>
+              <div style="font-family:Geist Mono,monospace;font-size:10px;color:#A89D89;margin-top:8px;">Locked · next unit</div>
+            </div>
+          </div>
+        </div>
+        <!-- detail panel -->
+        <div style="width:340px;flex:none;border-left:1px solid rgba(22,26,34,0.08);background:#FCFAF6;padding:24px;overflow:auto;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;"><span style="width:9px;height:9px;border-radius:3px;background:#C2533A;"></span><span style="font-family:Geist Mono,monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#C2533A;">Needs work · 38%</span></div>
+          <h3 style="font-family:Newsreader,serif;font-weight:600;font-size:24px;letter-spacing:-0.01em;margin:0 0 12px;">Adding unlike fractions</h3>
+          <p style="font-size:14px;line-height:1.55;color:#5A5247;margin:0 0 20px;">You can add fractions once the denominators match, but you stall at the step right before — finding a common denominator. Your gap is one level down, not here.</p>
+          <div style="font-family:Geist Mono,monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;color:#8B7B68;margin-bottom:12px;">Prerequisites</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:22px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="width:20px;height:20px;border-radius:50%;background:#5C8A6E;flex:none;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              <span style="flex:1;font-size:13.5px;">Equivalent fractions</span>
+              <span style="font-family:Geist Mono,monospace;font-size:12px;color:#5C8A6E;">90%</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;background:#F6ECDA;border:1px solid rgba(194,138,44,0.4);border-radius:10px;padding:9px 11px;margin:-2px -4px;">
+              <span style="width:20px;height:20px;border-radius:50%;background:#C28A2C;flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;">!</span>
+              <span style="flex:1;font-size:13.5px;font-weight:600;">Common denominators <span style="font-weight:400;color:#8B7B68;font-size:11px;font-family:Geist Mono,monospace;">weak link</span></span>
+              <span style="font-family:Geist Mono,monospace;font-size:12px;color:#C28A2C;">54%</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="width:20px;height:20px;border-radius:50%;background:#5C8A6E;flex:none;display:flex;align-items:center;justify-content:center;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+              <span style="flex:1;font-size:13.5px;">Adding like fractions</span>
+              <span style="font-family:Geist Mono,monospace;font-size:12px;color:#5C8A6E;">88%</span>
+            </div>
+          </div>
+          <div style="background:#F7F2EA;border:1px solid rgba(22,26,34,0.08);border-radius:12px;padding:16px;margin-bottom:18px;">
+            <div style="display:flex;align-items:flex-start;gap:10px;">
+              <div style="width:24px;height:24px;border-radius:50%;background:#C2533A;flex:none;display:flex;align-items:center;justify-content:center;font-family:Newsreader,serif;color:#FBF7F0;font-size:13px;font-weight:600;">M</div>
+              <p style="font-size:13.5px;line-height:1.5;color:#3A424F;margin:0;">Let's lock in <b style="font-weight:600;">common denominators</b> first — that one move unblocks adding, subtracting, and comparing. I've lined up 8 practice problems for you.</p>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <span style="background:#C2533A;color:#FBF7F0;border-radius:10px;padding:12px;font-size:14px;font-weight:500;text-align:center;">Start the 8 practice problems</span>
+            <span style="background:#FCFAF6;border:1px solid rgba(22,26,34,0.14);color:#5A5247;border-radius:10px;padding:12px;font-size:14px;font-weight:500;text-align:center;">Open my workspace</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ </div>
+</div>
+</x-dc>
+</body>
+</html>
