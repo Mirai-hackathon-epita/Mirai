@@ -54,6 +54,8 @@ const K = {
   activeGraph: "mira:graph:active",
   deadline: "mira:deadline",
   callRequests: "mira:callRequests",
+  // Re-probe queue: per-student list of exercise IDs pending re-probe
+  reprobe: (studentId: string) => `mira:reprobe:${studentId}`,
 } as const;
 
 let seeding: Promise<void> | null = null;
@@ -290,4 +292,45 @@ export async function resolveCallRequest(id: string): Promise<void> {
     r.id === id ? { ...r, status: "resolved" as const } : r,
   );
   await kv().setJSON(K.callRequests, updated);
+}
+
+// ── Activity (setter) ──
+export async function saveActivity(items: ActivityItem[]): Promise<void> {
+  await kv().setJSON(K.activity, items);
+}
+
+// ── Re-probe queue ──
+// Each entry is an exercise id string (the probe exercise created by the
+// re-teach route). listUnshift adds to the HEAD, so listRange(0,0) returns
+// the most recently enqueued entry — the one the teacher just requested.
+
+/** Return the most recently enqueued re-probe exercise id for a student, or null. */
+export async function peekReprobe(studentId: string): Promise<string | null> {
+  const items = await kv().listRange<string>(K.reprobe(studentId), 0, 0);
+  return items[0] ?? null;
+}
+
+/** Push an exercise id onto the re-probe queue for a student (newest at head). */
+export async function pushReprobe(
+  studentId: string,
+  exerciseId: string,
+): Promise<void> {
+  await kv().listUnshift(K.reprobe(studentId), exerciseId);
+}
+
+/** Remove and return the head (most recently enqueued) re-probe entry. */
+export async function popReprobe(studentId: string): Promise<string | null> {
+  const all = await kv().listRange<string>(K.reprobe(studentId), 0, -1);
+  if (all.length === 0) return null;
+  const head = all[0];
+  await kv().del(K.reprobe(studentId));
+  for (let i = all.length - 1; i >= 1; i--) {
+    await kv().listUnshift(K.reprobe(studentId), all[i]);
+  }
+  return head;
+}
+
+/** Drain all pending re-probe entries for a student. */
+export async function clearReprobe(studentId: string): Promise<void> {
+  await kv().del(K.reprobe(studentId));
 }

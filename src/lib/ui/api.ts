@@ -2,16 +2,29 @@
 // API routes built by the backend. Keep the paths in sync with INTEGRATION.md.
 
 import type {
+  ActivityItem,
   AskResponse,
+  CallRequest,
   ChatResponse,
   DashboardResponse,
   FeedEvent,
+  MasteryDeadline,
   NextExerciseResponse,
   OcrResponse,
+  PublishCourseResponse,
   StudentGraphResponse,
   SubmitResponse,
+  TopicMastery,
+  UploadCourseResponse,
   VisualizationSpec,
 } from "@/lib/domain/types";
+
+/** Response shape for POST /api/teacher/concept/retaught */
+export interface RetaughtResponse {
+  topicMastery: TopicMastery[];
+  activityItem: ActivityItem;
+  studentsAffected: number;
+}
 
 async function get<T>(url: string): Promise<T> {
   const res = await fetch(url, { cache: "no-store" });
@@ -52,4 +65,25 @@ export const api = {
       "/api/teacher/course/visualize",
       body,
     ),
+
+  // ── Phase 1: course upload + enrichment + publish ───────────────
+  uploadCourse: (body: { text?: string; sourceName?: string }) =>
+    post<UploadCourseResponse>("/api/teacher/course/upload", body),
+  publishCourse: () =>
+    post<PublishCourseResponse>("/api/teacher/course/publish", {}),
+
+  // ── Phase 1: mark concept as re-taught ──────────────────────────
+  markRetaught: (body: { conceptId: string }) =>
+    post<RetaughtResponse>("/api/teacher/concept/retaught", body),
+
+  // ── Phase 1: deadline + call-teacher ────────────────────────────
+  setDeadline: (body: { topic: string; date: string }) =>
+    post<{ deadline: MasteryDeadline }>("/api/teacher/deadline", body),
+  callTeacher: (studentId: string, body?: Record<string, unknown>) =>
+    post<{ callRequest: CallRequest }>(
+      `/api/students/${studentId}/call`,
+      body ?? {},
+    ),
+  resolveCall: (id: string) =>
+    post<{ resolved: boolean }>(`/api/teacher/call/${id}/resolve`, {}),
 };

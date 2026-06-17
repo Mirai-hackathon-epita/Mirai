@@ -19,6 +19,8 @@ const SEED_FEED = FEED[STUDENT_ID] ?? [];
 const PROGRESS_INDEX = 2;
 const PROGRESS_TOTAL = 8;
 
+type CallState = "idle" | "calling" | "called" | "error";
+
 export default function StudentPage() {
   const [exercise, setExercise] = React.useState<Exercise>(SEED_EXERCISE);
   const [problemNumber, setProblemNumber] = React.useState(PROGRESS_INDEX + 1);
@@ -26,6 +28,7 @@ export default function StudentPage() {
   const [feed, setFeed] = React.useState<FeedEvent[]>(SEED_FEED);
   const [chatOpen, setChatOpen] = React.useState(false);
   const [workKey, setWorkKey] = React.useState(0); // force re-mount WorkPanel on next problem
+  const [callState, setCallState] = React.useState<CallState>("idle");
 
   // Try to load from API, fall back to seed silently
   React.useEffect(() => {
@@ -54,6 +57,20 @@ export default function StudentPage() {
       cancelled = true;
     };
   }, []);
+
+  async function handleCallTeacher() {
+    if (callState === "calling" || callState === "called") return;
+    setCallState("calling");
+    try {
+      await api.callTeacher(STUDENT_ID);
+      setCallState("called");
+      // Reset confirmation after 4 s so the student can call again if needed
+      setTimeout(() => setCallState("idle"), 4000);
+    } catch {
+      setCallState("error");
+      setTimeout(() => setCallState("idle"), 3000);
+    }
+  }
 
   function handleNextProblem(preGeneratedExercise?: Exercise) {
     setProgressIndex((p) => Math.min(p + 1, PROGRESS_TOTAL - 1));
@@ -88,6 +105,52 @@ export default function StudentPage() {
         overflow: "hidden",
       }}
     >
+      {/* Call-teacher confirmation banner */}
+      {callState === "called" && (
+        <div
+          style={{
+            position: "fixed",
+            top: 72,
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "#3A424F",
+            color: "#FBF7F0",
+            fontSize: 14,
+            fontFamily: "Geist, sans-serif",
+            fontWeight: 500,
+            padding: "10px 20px",
+            borderRadius: 10,
+            zIndex: 9999,
+            boxShadow: "0 4px 16px rgba(0,0,0,0.18)",
+            pointerEvents: "none",
+          }}
+        >
+          Ms. Rivera has been notified — she&apos;ll come over shortly.
+        </div>
+      )}
+      {callState === "error" && (
+        <div
+          style={{
+            position: "fixed",
+            top: 72,
+            left: "50%",
+            transform: "translateX(-50%)",
+            background: "#C2533A",
+            color: "#FBF7F0",
+            fontSize: 14,
+            fontFamily: "Geist, sans-serif",
+            fontWeight: 500,
+            padding: "10px 20px",
+            borderRadius: 10,
+            zIndex: 9999,
+            boxShadow: "0 4px 16px rgba(0,0,0,0.18)",
+            pointerEvents: "none",
+          }}
+        >
+          Could not send — please try again.
+        </div>
+      )}
+
       <WorkspaceNav
         topic={MAYA.currentTopicLabel}
         progressIndex={progressIndex}
@@ -95,7 +158,7 @@ export default function StudentPage() {
         studentName="Maya"
         studentInitials={MAYA.initials}
         studentId={STUDENT_ID}
-        onCallTeacher={() => alert("Calling Ms. Rivera…")}
+        onCallTeacher={handleCallTeacher}
       />
 
       {/* Two-column body */}

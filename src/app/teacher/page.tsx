@@ -17,11 +17,16 @@ import { RosterTable } from "@/components/teacher/RosterTable";
 import { ActivityTimeline } from "@/components/teacher/ActivityTimeline";
 import { TopicMasteryBars } from "@/components/teacher/TopicMasteryBars";
 import { AskMira } from "@/components/teacher/AskMira";
+import { DeadlineControl } from "@/components/teacher/DeadlineControl";
+import { CallRequestsPanel } from "@/components/teacher/CallRequestsPanel";
+import { api } from "@/lib/ui/api";
 import type {
   ActivityItem,
+  CallRequest,
   ClassStats,
   DashboardResponse,
   FlagInfo,
+  MasteryDeadline,
   Student,
   TopicMastery,
 } from "@/lib/domain/types";
@@ -42,30 +47,38 @@ export default function TeacherDashboard() {
   const [roster, setRoster] = React.useState<Student[]>(STUDENTS);
   const [activity, setActivity] = React.useState<ActivityItem[]>(ACTIVITY);
   const [topics, setTopics] = React.useState<TopicMastery[]>(TOPIC_MASTERY);
+  const [deadline, setDeadline] = React.useState<MasteryDeadline | null>(null);
+  const [callRequests, setCallRequests] = React.useState<CallRequest[]>([]);
   const [serverTime, setServerTime] = React.useState(
     "Tue, Mar 18 · 9:30 AM",
   );
 
-  // Try live API; keep seed on failure
-  React.useEffect(() => {
-    fetch("/api/teacher/dashboard")
-      .then((r) => {
-        if (!r.ok) throw new Error("not ready");
-        return r.json() as Promise<DashboardResponse>;
-      })
-      .then((d) => {
-        setTeacher(d.teacher);
-        setStats(d.classStats);
-        setFlagged(d.flagged);
-        setRoster(d.roster);
-        setActivity(d.activity);
-        setTopics(d.topicMastery);
-        setServerTime(d.serverTime);
-      })
+  function applyDashboard(d: DashboardResponse) {
+    setTeacher(d.teacher);
+    setStats(d.classStats);
+    setFlagged(d.flagged);
+    setRoster(d.roster);
+    setActivity(d.activity);
+    setTopics(d.topicMastery);
+    setDeadline(d.deadline ?? null);
+    setCallRequests(d.callRequests ?? []);
+    setServerTime(d.serverTime);
+  }
+
+  function fetchDashboard() {
+    api
+      .dashboard()
+      .then(applyDashboard)
       .catch(() => {
         // keep seed data — looks identical anyway
         setServerTime(formatServerTime());
       });
+  }
+
+  // Try live API; keep seed on failure
+  React.useEffect(() => {
+    fetchDashboard();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -99,6 +112,8 @@ export default function TeacherDashboard() {
             borderBottom: `1px solid ${C.line}`,
             background: C.paper2,
             flexShrink: 0,
+            flexWrap: "wrap",
+            gap: 12,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -115,6 +130,10 @@ export default function TeacherDashboard() {
             </h3>
             <Icon name="chevron-down" size={16} color={C.mono} />
           </div>
+
+          {/* Deadline control — center area of the header */}
+          <DeadlineControl deadline={deadline} onDeadlineSet={setDeadline} />
+
           <div
             style={{
               fontFamily: FONT.mono,
@@ -147,12 +166,18 @@ export default function TeacherDashboard() {
               <RosterTable roster={roster} />
             </div>
 
-            {/* Right column: activity + topic bars + ask mira */}
+            {/* Right column: call requests + activity + topic bars + ask mira */}
             <div
               style={{ display: "flex", flexDirection: "column", gap: 16 }}
             >
+              <CallRequestsPanel
+                callRequests={callRequests}
+                onResolved={(id) =>
+                  setCallRequests((prev) => prev.filter((r) => r.id !== id))
+                }
+              />
               <ActivityTimeline activity={activity} />
-              <TopicMasteryBars topics={topics} />
+              <TopicMasteryBars topics={topics} onRetaught={fetchDashboard} />
               <AskMira />
             </div>
           </div>

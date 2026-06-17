@@ -194,13 +194,17 @@ export interface ActivityItem {
 
 // ─── Teacher-side domain types ───────────────────────────────────────
 
+export type CourseStatus = "draft" | "enriching" | "enriched" | "published";
+
 /** A course uploaded by the teacher, with enrichment lifecycle status. */
 export interface Course {
   id: string;
-  topic: string;
+  topic?: string;
   sourceName: string;
-  status: "draft" | "enriching" | "enriched" | "published";
+  text?: string; // raw uploaded course text
+  status: CourseStatus;
   createdAt: number; // epoch ms
+  enrichedAt?: number; // epoch ms, set when status becomes "enriched"
   publishedAt?: number; // epoch ms, set when status becomes "published"
 }
 
@@ -219,6 +223,10 @@ export interface CallRequest {
   ts: number; // epoch ms
   status: "open" | "resolved";
   lastDiagnosis?: string; // last agent diagnosis text, if any
+  // Display fields populated at creation time for the dashboard panel.
+  studentName?: string;
+  currentTopicLabel?: string;
+  detail?: string;
 }
 
 // ─── API response shapes (the wire contract) ────────────────────────
@@ -275,4 +283,20 @@ export interface OcrResponse {
 
 export interface AskResponse {
   answer: string;
+}
+
+// ─── Course upload / enrichment (wire contract) ─────────────────────
+
+/** Response shape for POST /api/teacher/course/upload */
+export interface UploadCourseResponse {
+  course: Course;
+  graph: ConceptGraph;
+  visualizations: VisualizationSpec[];
+  /** Human-readable steps performed by the agentic enrichment loop. */
+  agentSteps: string[];
+}
+
+/** Response shape for POST /api/teacher/course/publish */
+export interface PublishCourseResponse {
+  course: Course;
 }

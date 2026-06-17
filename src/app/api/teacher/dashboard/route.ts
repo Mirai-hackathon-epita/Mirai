@@ -52,7 +52,7 @@ export async function GET() {
       topicMastery,
       insight,
       serverTime: formatServerTime(),
-      callRequests,
+      callRequests: callRequests.filter((r) => r.status === "open"),
       deadline,
       activeCourse,
     };
