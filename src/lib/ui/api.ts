@@ -10,6 +10,7 @@ import type {
   OcrResponse,
   StudentGraphResponse,
   SubmitResponse,
+  VisualizationSpec,
 } from "@/lib/domain/types";
 
 async function get<T>(url: string): Promise<T> {
@@ -46,4 +47,9 @@ export const api = {
     post<ChatResponse>(`/api/students/${id}/chat`, body),
   ask: (body: { question: string }) =>
     post<AskResponse>("/api/teacher/ask", body),
+  visualize: (body: { conceptId: string; currentKind?: string }) =>
+    post<{ visualization: VisualizationSpec }>(
+      "/api/teacher/course/visualize",
+      body,
+    ),
 };

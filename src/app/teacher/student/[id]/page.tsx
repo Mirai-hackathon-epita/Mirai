@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { use } from "react";
 import { STUDENTS, MASTERY } from "@/lib/seed/data";
 import { FRACTIONS_GRAPH } from "@/lib/domain/conceptGraph";
 import { pct } from "@/lib/domain/mastery";
@@ -13,7 +12,7 @@ import { GraphDetail } from "@/components/graph/GraphDetail";
 import type { ConceptMastery, Student, StudentGraphResponse } from "@/lib/domain/types";
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
 function seedData(id: string): {
@@ -29,7 +28,7 @@ function seedData(id: string): {
 }
 
 export default function SkillGraphPage({ params }: Props) {
-  const { id } = use(params);
+  const { id } = params;
 
   const seed = seedData(id);
   const [student, setStudent] = React.useState<Student>(seed.student);

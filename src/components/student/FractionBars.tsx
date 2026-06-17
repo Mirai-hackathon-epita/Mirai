@@ -4,8 +4,10 @@ import * as React from "react";
 import { C, FONT } from "@/lib/ui/theme";
 import type { VisualizationSpec } from "@/lib/domain/types";
 
+type FractionBarsSpec = Extract<VisualizationSpec, { kind: "fraction-bars" }>;
+
 interface FractionBarsProps {
-  spec: VisualizationSpec;
+  spec: FractionBarsSpec;
 }
 
 export function FractionBars({ spec }: FractionBarsProps) {

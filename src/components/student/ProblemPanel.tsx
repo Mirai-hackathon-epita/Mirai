@@ -4,7 +4,10 @@ import * as React from "react";
 import { C, FONT } from "@/lib/ui/theme";
 import { Chip, Icon } from "@/components/ui";
 import { FractionBars } from "./FractionBars";
-import type { Exercise } from "@/lib/domain/types";
+import { NumberLine } from "./NumberLine";
+import { AreaModel } from "./AreaModel";
+import { api } from "@/lib/ui/api";
+import type { Exercise, VisualizationSpec } from "@/lib/domain/types";
 
 interface ProblemPanelProps {
   exercise: Exercise;
@@ -12,6 +15,25 @@ interface ProblemPanelProps {
 }
 
 export function ProblemPanel({ exercise, problemNumber }: ProblemPanelProps) {
+  const [extraViz, setExtraViz] = React.useState<VisualizationSpec | null>(null);
+  const [vizLoading, setVizLoading] = React.useState(false);
+
+  async function handleAddVisualization() {
+    if (vizLoading) return;
+    setVizLoading(true);
+    try {
+      const res = await api.visualize({
+        conceptId: exercise.conceptId ?? "adding-unlike-fractions",
+        currentKind: extraViz?.kind ?? exercise.visualization?.kind ?? "fraction-bars",
+      });
+      setExtraViz(res.visualization);
+    } catch {
+      // silently fail on demo
+    } finally {
+      setVizLoading(false);
+    }
+  }
+
   return (
     <div
       style={{
@@ -149,6 +171,102 @@ export function ProblemPanel({ exercise, problemNumber }: ProblemPanelProps) {
           <FractionBars spec={exercise.visualization} />
         </div>
       )}
+
+      {/* Extra generated visualization */}
+      {extraViz && (
+        <div
+          style={{
+            background: C.paper2,
+            border: `1px solid ${C.line}`,
+            borderRadius: 16,
+            padding: 20,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 16,
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <span
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: C.terracotta,
+                  display: "inline-block",
+                }}
+              />
+              <h4
+                style={{
+                  fontSize: 14,
+                  fontWeight: 600,
+                  margin: 0,
+                  fontFamily: FONT.sans,
+                  color: C.ink,
+                }}
+              >
+                {extraViz.kind === "number-line"
+                  ? extraViz.title
+                  : extraViz.kind === "area-model"
+                    ? extraViz.title
+                    : ""}
+              </h4>
+            </div>
+            <Chip fg={C.terracotta} bg={C.terracottaBg} mono style={{ fontSize: 11 }}>
+              ✦ AI Generated
+            </Chip>
+          </div>
+
+          {extraViz.kind === "number-line" && <NumberLine spec={extraViz} />}
+          {extraViz.kind === "area-model" && <AreaModel spec={extraViz} />}
+        </div>
+      )}
+
+      {/* Add Visualization button */}
+      <div>
+        <button
+          onClick={handleAddVisualization}
+          disabled={vizLoading}
+          style={{
+            fontFamily: FONT.mono,
+            fontSize: 11,
+            letterSpacing: "0.04em",
+            textTransform: "uppercase",
+            color: vizLoading ? C.mono : C.terracotta,
+            background: C.terracottaBg,
+            border: `1px solid rgba(194,83,58,0.2)`,
+            borderRadius: 8,
+            padding: "6px 13px",
+            cursor: vizLoading ? "wait" : "pointer",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          {vizLoading ? (
+            <>
+              <span
+                style={{
+                  display: "inline-block",
+                  width: 10,
+                  height: 10,
+                  border: `2px solid ${C.terracotta}`,
+                  borderTopColor: "transparent",
+                  borderRadius: "50%",
+                  animation: "spin 0.7s linear infinite",
+                }}
+              />
+              Generating…
+            </>
+          ) : (
+            <>✦ Add Visualization</>
+          )}
+        </button>
+      </div>
     </div>
   );
 }

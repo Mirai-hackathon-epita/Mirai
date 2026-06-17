@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { C, FONT } from "@/lib/ui/theme";
 import { Logo, Avatar, Icon } from "@/components/ui";
 
@@ -10,6 +11,7 @@ interface WorkspaceNavProps {
   progressTotal: number;
   studentName: string;
   studentInitials: string;
+  studentId: string;
   onCallTeacher?: () => void;
 }
 
@@ -19,6 +21,7 @@ export function WorkspaceNav({
   progressTotal,
   studentName,
   studentInitials,
+  studentId,
   onCallTeacher,
 }: WorkspaceNavProps) {
   return (
@@ -88,6 +91,29 @@ export function WorkspaceNav({
 
       {/* Right side */}
       <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+        {/* My progress button */}
+        <Link
+          href={`/teacher/student/${studentId}`}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 7,
+            fontSize: 13,
+            fontWeight: 500,
+            color: C.blue,
+            background: C.blueBg,
+            border: `1px solid rgba(44,74,223,0.28)`,
+            borderRadius: 10,
+            padding: "8px 14px",
+            cursor: "pointer",
+            fontFamily: FONT.sans,
+            textDecoration: "none",
+          }}
+        >
+          <Icon name="graph" size={15} />
+          My progress
+        </Link>
+
         {/* Call teacher button */}
         <button
           onClick={onCallTeacher}

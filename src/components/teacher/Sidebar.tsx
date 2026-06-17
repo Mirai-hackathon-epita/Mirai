@@ -10,14 +10,15 @@ import type { Teacher } from "@/lib/domain/types";
 interface NavItem {
   icon: IconName;
   label: string;
+  href?: string;
   active?: boolean;
 }
 
 const NAV: NavItem[] = [
-  { icon: "grid", label: "Overview", active: true },
+  { icon: "grid", label: "Overview", href: "/teacher", active: true },
   { icon: "users", label: "Students" },
   { icon: "activity", label: "Activity" },
-  { icon: "book", label: "Course library" },
+  { icon: "book", label: "Course", href: "/teacher/course" },
   { icon: "settings", label: "Settings" },
 ];
 
@@ -39,25 +40,33 @@ export function Sidebar({ teacher }: { teacher: Teacher }) {
         <Logo size={22} />
       </Link>
       <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-        {NAV.map((item) => (
-          <div
-            key={item.label}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 11,
-              padding: "10px 12px",
-              borderRadius: 9,
-              background: item.active ? C.terracottaBg : "transparent",
-              color: item.active ? C.terracotta : C.muted,
-              fontSize: 14,
-              fontWeight: item.active ? 500 : 400,
-            }}
-          >
-            <Icon name={item.icon} size={17} />
-            {item.label}
-          </div>
-        ))}
+        {NAV.map((item) => {
+          const inner = (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 11,
+                padding: "10px 12px",
+                borderRadius: 9,
+                background: item.active ? C.terracottaBg : "transparent",
+                color: item.active ? C.terracotta : C.muted,
+                fontSize: 14,
+                fontWeight: item.active ? 500 : 400,
+              }}
+            >
+              <Icon name={item.icon} size={17} />
+              {item.label}
+            </div>
+          );
+          return item.href ? (
+            <Link key={item.label} href={item.href}>
+              {inner}
+            </Link>
+          ) : (
+            <div key={item.label}>{inner}</div>
+          );
+        })}
       </div>
       <div
         style={{

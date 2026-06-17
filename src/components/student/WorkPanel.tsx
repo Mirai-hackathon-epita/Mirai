@@ -4,21 +4,21 @@ import * as React from "react";
 import { C, FONT } from "@/lib/ui/theme";
 import { Icon, MiraMark, Button } from "@/components/ui";
 import { api } from "@/lib/ui/api";
-import type { Exercise, GradeResult, OcrResponse } from "@/lib/domain/types";
+import type { Exercise, FeedEvent, GradeResult, OcrResponse } from "@/lib/domain/types";
 
 interface WorkPanelProps {
   exercise: Exercise;
   onNextProblem: () => void;
   onAskHint: () => void;
+  onFeedUpdate?: (events: FeedEvent[]) => void;
+  onNextExercise?: (ex: Exercise) => void;
 }
 
 type DrawMode = "draw" | "type";
 
-export function WorkPanel({ exercise, onNextProblem, onAskHint }: WorkPanelProps) {
+export function WorkPanel({ exercise, onNextProblem, onAskHint, onFeedUpdate, onNextExercise }: WorkPanelProps) {
   const [drawMode, setDrawMode] = React.useState<DrawMode>("type");
-  const [answer, setAnswer] = React.useState(
-    "¾ + ⅙\n= 9⁄12 + 2⁄12\n= 11⁄12",
-  );
+  const [answer, setAnswer] = React.useState("");
   const [ocrResult, setOcrResult] = React.useState<OcrResponse | null>(null);
   const [ocrLoading, setOcrLoading] = React.useState(false);
   const [gradeResult, setGradeResult] = React.useState<GradeResult | null>(null);
@@ -28,6 +28,9 @@ export function WorkPanel({ exercise, onNextProblem, onAskHint }: WorkPanelProps
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const isDrawingRef = React.useRef(false);
   const lastPosRef = React.useRef<{ x: number; y: number } | null>(null);
+
+  // Stores the pre-generated next exercise returned by the submit API
+  const nextExerciseRef = React.useRef<Exercise | null>(null);
 
   // ─── Canvas drawing ───────────────────────────────────────────────
   function getPos(e: React.MouseEvent | React.TouchEvent, canvas: HTMLCanvasElement) {
@@ -127,6 +130,12 @@ export function WorkPanel({ exercise, onNextProblem, onAskHint }: WorkPanelProps
         viaOcr: !!ocrResult,
       });
       setGradeResult(res.grade);
+      if (res.feed && res.feed.length > 0) {
+        onFeedUpdate?.(res.feed);
+      }
+      if (res.nextExercise) {
+        nextExerciseRef.current = res.nextExercise;
+      }
     } catch {
       // Fallback seed grade result
       setGradeResult({
@@ -456,7 +465,12 @@ export function WorkPanel({ exercise, onNextProblem, onAskHint }: WorkPanelProps
         }}
       >
         <button
-          onClick={onNextProblem}
+          onClick={() => {
+            if (nextExerciseRef.current) {
+              onNextExercise?.(nextExerciseRef.current);
+            }
+            onNextProblem();
+          }}
           style={{
             background: C.terracotta,
             color: C.cream,

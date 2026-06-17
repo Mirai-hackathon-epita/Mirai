@@ -86,13 +86,24 @@ export interface Exercise {
   visualization?: VisualizationSpec | null;
 }
 
-/** Fraction-bar style visualization rendered in the student workspace. */
-export interface VisualizationSpec {
-  kind: "fraction-bars";
-  title: string;
-  denominator: number;
-  rows: { label: string; caption: string; filled: number; color: string }[];
-}
+/** Visualization specs rendered in the student workspace. */
+export type VisualizationSpec =
+  | {
+      kind: "fraction-bars";
+      title: string;
+      denominator: number;
+      rows: { label: string; caption: string; filled: number; color: string }[];
+    }
+  | {
+      kind: "number-line";
+      title: string;
+      markers: { value: number; label: string; color: string }[];
+    }
+  | {
+      kind: "area-model";
+      title: string;
+      parts: { label: string; color: string; size: number }[];
+    };
 
 export interface StepFeedback {
   step: string;

@@ -55,23 +55,27 @@ export default function StudentPage() {
     };
   }, []);
 
-  function handleNextProblem() {
-    // Advance to next exercise from seed pool or re-fetch
-    const nextIdx = EXERCISES.findIndex((e) => e.id === exercise.id);
-    const nextExercise = EXERCISES[(nextIdx + 1) % EXERCISES.length];
-    setExercise(nextExercise);
+  function handleNextProblem(preGeneratedExercise?: Exercise) {
     setProgressIndex((p) => Math.min(p + 1, PROGRESS_TOTAL - 1));
     setProblemNumber((n) => n + 1);
     setWorkKey((k) => k + 1);
-    // Also try API
-    api
-      .nextExercise(STUDENT_ID)
-      .then((res) => {
-        setExercise(res.exercise);
-        setProblemNumber(res.progress.index + 1);
-        setProgressIndex(res.progress.index);
-      })
-      .catch(() => {});
+    if (preGeneratedExercise) {
+      // Use the pre-generated exercise returned by the submit API
+      setExercise(preGeneratedExercise);
+    } else {
+      // Fall back: cycle through seed pool and try API
+      const nextIdx = EXERCISES.findIndex((e) => e.id === exercise.id);
+      const seedNext = EXERCISES[(nextIdx + 1) % EXERCISES.length];
+      setExercise(seedNext);
+      api
+        .nextExercise(STUDENT_ID)
+        .then((res) => {
+          setExercise(res.exercise);
+          setProblemNumber(res.progress.index + 1);
+          setProgressIndex(res.progress.index);
+        })
+        .catch(() => {});
+    }
   }
 
   return (
@@ -90,6 +94,7 @@ export default function StudentPage() {
         progressTotal={PROGRESS_TOTAL}
         studentName="Maya"
         studentInitials={MAYA.initials}
+        studentId={STUDENT_ID}
         onCallTeacher={() => alert("Calling Ms. Rivera…")}
       />
 
@@ -108,6 +113,8 @@ export default function StudentPage() {
           exercise={exercise}
           onNextProblem={handleNextProblem}
           onAskHint={() => setChatOpen(true)}
+          onFeedUpdate={(events) => { if (events.length) setFeed(events); }}
+          onNextExercise={(ex) => handleNextProblem(ex)}
         />
       </div>
 

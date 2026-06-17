@@ -126,6 +126,12 @@ button {
   animation: mira-fade-up 0.32s ease both;
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes mira-pulse {
   0%,
   100% {
