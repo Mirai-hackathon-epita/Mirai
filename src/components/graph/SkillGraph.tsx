@@ -74,7 +74,7 @@ function NodeCard({ conceptId, col, row, cm, isFocus, isSelected, onClick }: Nod
         left,
         top,
         width: 168,
-        height: 52,
+        minHeight: 52,
         background: bg,
         border,
         borderRadius: 12,

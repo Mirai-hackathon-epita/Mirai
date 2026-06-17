@@ -126,6 +126,7 @@ export default function StudentPage() {
         open={chatOpen}
         onClose={() => setChatOpen(false)}
         studentId={STUDENT_ID}
+        exerciseContext={exercise.expression}
       />
     </div>
   );

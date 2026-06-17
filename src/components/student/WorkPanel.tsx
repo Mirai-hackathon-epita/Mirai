@@ -20,9 +20,8 @@ export function WorkPanel({ exercise, onNextProblem, onAskHint, onFeedUpdate, on
   const [drawMode, setDrawMode] = React.useState<DrawMode>("type");
   const [answer, setAnswer] = React.useState("");
   const [ocrResult, setOcrResult] = React.useState<OcrResponse | null>(null);
-  const [ocrLoading, setOcrLoading] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
   const [gradeResult, setGradeResult] = React.useState<GradeResult | null>(null);
-  const [gradeLoading, setGradeLoading] = React.useState(false);
 
   // Canvas refs
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -103,57 +102,49 @@ export function WorkPanel({ exercise, onNextProblem, onAskHint, onFeedUpdate, on
     }
   }, [drawMode]);
 
-  // ─── OCR ─────────────────────────────────────────────────────────
-  async function handleOcr() {
-    setOcrLoading(true);
+  // ─── Check answer ─────────────────────────────────────────────────
+  async function handleCheckAnswer() {
+    setSubmitting(true);
     try {
-      const result = await api.ocr({ sample: "maya-fractions" });
-      setOcrResult(result);
-    } catch {
-      // Fallback
-      setOcrResult({
-        text: "3/4 + 1/6 = 9/12 + 2/12 = 11/12",
-        confidence: "high",
-      });
-    } finally {
-      setOcrLoading(false);
-    }
-  }
+      let submittedAnswer = answer.trim();
+      let viaOcr = false;
 
-  // ─── Submit ───────────────────────────────────────────────────────
-  async function handleSubmit() {
-    setGradeLoading(true);
-    try {
+      if (drawMode === "draw") {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const imageUrl = canvas.toDataURL("image/png");
+        try {
+          const ocr = await api.ocr({ imageUrl });
+          setOcrResult(ocr);
+          submittedAnswer = ocr.text;
+          viaOcr = true;
+        } catch {
+          submittedAnswer = "unable to read handwriting";
+        }
+      }
+
+      if (!submittedAnswer) return;
+
       const res = await api.submit("maya", {
         exerciseId: exercise.id,
-        answer: ocrResult?.text ?? answer,
-        viaOcr: !!ocrResult,
+        answer: submittedAnswer,
+        viaOcr,
       });
       setGradeResult(res.grade);
-      if (res.feed && res.feed.length > 0) {
-        onFeedUpdate?.(res.feed);
-      }
-      if (res.nextExercise) {
-        nextExerciseRef.current = res.nextExercise;
-      }
+      if (res.feed && res.feed.length > 0) onFeedUpdate?.(res.feed);
+      if (res.nextExercise) nextExerciseRef.current = res.nextExercise;
     } catch {
-      // Fallback seed grade result
       setGradeResult({
-        correct: true,
-        readBack: "3/4 + 1/6 = 9/12 + 2/12 = 11/12",
-        steps: [
-          { step: "Find common denominator: 12", ok: true },
-          { step: "Rewrite: 9/12 + 2/12", ok: true },
-          { step: "Add: 11/12", ok: true },
-        ],
-        failingStepIndex: null,
-        tutorMessage:
-          "You found the common denominator on your own this time — that's the step you missed yesterday. I'll nudge the next one to **difficulty 5** and bring in a subtraction.",
-        nextDifficulty: 5,
-        masteryDelta: 0.08,
+        correct: false,
+        readBack: answer,
+        steps: [{ step: "Could not grade the answer", ok: false }],
+        failingStepIndex: 0,
+        tutorMessage: "There was an issue checking your answer. Please try again.",
+        nextDifficulty: 3,
+        masteryDelta: 0,
       });
     } finally {
-      setGradeLoading(false);
+      setSubmitting(false);
     }
   }
 
@@ -294,37 +285,6 @@ export function WorkPanel({ exercise, onNextProblem, onAskHint, onFeedUpdate, on
           overflow: "hidden",
         }}
       >
-        {/* OCR read badge */}
-        <span
-          style={{
-            position: "absolute",
-            top: 12,
-            right: 14,
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 6,
-            fontFamily: FONT.mono,
-            fontSize: 10.5,
-            color: C.mono,
-            background: C.paper3,
-            borderRadius: 5,
-            padding: "3px 8px",
-            zIndex: 2,
-            pointerEvents: "none",
-          }}
-        >
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: "50%",
-              background: C.green,
-              display: "inline-block",
-            }}
-          />
-          read by OCR
-        </span>
-
         {drawMode === "type" ? (
           <textarea
             value={answer}
@@ -375,77 +335,38 @@ export function WorkPanel({ exercise, onNextProblem, onAskHint, onFeedUpdate, on
         )}
       </div>
 
-      {/* OCR section */}
-      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-        <button
-          onClick={handleOcr}
-          disabled={ocrLoading}
+      {/* OCR read result row — draw mode only, shown after OCR runs */}
+      {drawMode === "draw" && ocrResult && (
+        <div
           style={{
-            display: "inline-flex",
+            flex: 1,
+            display: "flex",
             alignItems: "center",
-            gap: 6,
+            gap: 9,
             fontFamily: FONT.mono,
-            fontSize: 11,
-            letterSpacing: "0.04em",
-            textTransform: "uppercase",
-            color: C.blue,
-            background: C.blueBg,
-            border: `1px solid rgba(44,74,223,0.2)`,
-            borderRadius: 8,
-            padding: "7px 13px",
-            cursor: ocrLoading ? "not-allowed" : "pointer",
-            opacity: ocrLoading ? 0.7 : 1,
-            flexShrink: 0,
+            fontSize: 12,
+            color: C.muted,
+            background: C.paper2,
+            border: `1px solid ${C.line}`,
+            borderRadius: 10,
+            padding: "11px 14px",
           }}
         >
-          <Icon name="camera" size={13} />
-          {ocrLoading ? "Reading…" : "OCR"}
-        </button>
+          <span style={{ color: C.blue, flexShrink: 0 }}>Mira read →</span>
+          {ocrResult.text}
+        </div>
+      )}
 
-        {ocrResult ? (
-          <div
-            style={{
-              flex: 1,
-              display: "flex",
-              alignItems: "center",
-              gap: 9,
-              fontFamily: FONT.mono,
-              fontSize: 12,
-              color: C.muted,
-              background: C.paper2,
-              border: `1px solid ${C.line}`,
-              borderRadius: 10,
-              padding: "11px 14px",
-            }}
-          >
-            <span style={{ color: C.blue, flexShrink: 0 }}>Mira read →</span>
-            {ocrResult.text}
-          </div>
-        ) : (
-          <span
-            style={{
-              flex: 1,
-              fontFamily: FONT.mono,
-              fontSize: 11,
-              color: C.faint,
-              padding: "0 4px",
-            }}
-          >
-            Click OCR to let Mira read your handwriting
-          </span>
-        )}
-      </div>
-
-      {/* Submit button (shown when OCR result is available and no grade yet) */}
-      {ocrResult && !gradeResult && (
+      {/* Check answer button */}
+      {!gradeResult && (
         <Button
           variant="primary"
           block
-          onClick={handleSubmit}
-          disabled={gradeLoading}
+          onClick={handleCheckAnswer}
+          disabled={submitting || (drawMode === "type" && answer.trim() === "")}
           style={{ fontSize: 15 }}
         >
-          {gradeLoading ? "Grading…" : "Submit answer"}
+          {submitting ? "Checking…" : "Check answer"}
         </Button>
       )}
 
@@ -468,8 +389,9 @@ export function WorkPanel({ exercise, onNextProblem, onAskHint, onFeedUpdate, on
           onClick={() => {
             if (nextExerciseRef.current) {
               onNextExercise?.(nextExerciseRef.current);
+            } else {
+              onNextProblem();
             }
-            onNextProblem();
           }}
           style={{
             background: C.terracotta,

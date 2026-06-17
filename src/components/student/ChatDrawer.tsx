@@ -25,17 +25,60 @@ interface ChatDrawerProps {
   open: boolean;
   onClose: () => void;
   studentId: string;
+  exerciseContext?: string;
 }
 
-export function ChatDrawer({ open, onClose, studentId }: ChatDrawerProps) {
+export function ChatDrawer({ open, onClose, studentId, exerciseContext }: ChatDrawerProps) {
   const [messages, setMessages] = React.useState<ChatMessage[]>(SEED_MESSAGES);
   const [input, setInput] = React.useState("");
   const [sending, setSending] = React.useState(false);
   const bottomRef = React.useRef<HTMLDivElement>(null);
+  const hintSentRef = React.useRef(false);
 
   React.useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Reset hintSentRef when the exercise changes so each new exercise gets a fresh hint
+  React.useEffect(() => {
+    hintSentRef.current = false;
+  }, [exerciseContext]);
+
+  // Auto-send hint when drawer opens with an exercise context
+  React.useEffect(() => {
+    if (!open || !exerciseContext || hintSentRef.current) return;
+
+    hintSentRef.current = true;
+    setSending(true);
+
+    api
+      .chat(studentId, { message: `I need a hint for this problem: ${exerciseContext}` })
+      .then((res) => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `m-${Date.now()}`,
+            role: "mira",
+            text: res.reply,
+            ts: Date.now(),
+          },
+        ]);
+      })
+      .catch(() => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `m-${Date.now()}`,
+            role: "mira",
+            text: "Try finding what number both denominators divide into evenly — that's your common denominator.",
+            ts: Date.now(),
+          },
+        ]);
+      })
+      .finally(() => {
+        setSending(false);
+      });
+  }, [open]);
 
   async function sendMessage() {
     const text = input.trim();
