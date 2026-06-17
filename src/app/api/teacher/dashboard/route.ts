@@ -8,21 +8,36 @@ import {
   getActivity,
   getTopicMastery,
   getInsight,
+  getActiveCourse,
+  getDeadline,
+  getCallRequests,
 } from "@/lib/data/repo";
 import { formatServerTime } from "@/lib/ui/format";
 import type { DashboardResponse, FlagInfo, Student } from "@/lib/domain/types";
 
 export async function GET() {
   try {
-    const [teacher, students, classStats, activity, topicMastery, insight] =
-      await Promise.all([
-        getTeacher(),
-        getStudents(),
-        getClassStats(),
-        getActivity(),
-        getTopicMastery(),
-        getInsight(),
-      ]);
+    const [
+      teacher,
+      students,
+      classStats,
+      activity,
+      topicMastery,
+      insight,
+      activeCourse,
+      deadline,
+      callRequests,
+    ] = await Promise.all([
+      getTeacher(),
+      getStudents(),
+      getClassStats(),
+      getActivity(),
+      getTopicMastery(),
+      getInsight(),
+      getActiveCourse(),
+      getDeadline(),
+      getCallRequests(),
+    ]);
 
     const flagged = students.filter(
       (s): s is Student & { flag: FlagInfo } => s.flag != null,
@@ -37,6 +52,9 @@ export async function GET() {
       topicMastery,
       insight,
       serverTime: formatServerTime(),
+      callRequests,
+      deadline,
+      activeCourse,
     };
 
     return NextResponse.json(resp);

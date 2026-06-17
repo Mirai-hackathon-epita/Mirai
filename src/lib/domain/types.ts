@@ -192,6 +192,35 @@ export interface ActivityItem {
   studentId?: string;
 }
 
+// ─── Teacher-side domain types ───────────────────────────────────────
+
+/** A course uploaded by the teacher, with enrichment lifecycle status. */
+export interface Course {
+  id: string;
+  topic: string;
+  sourceName: string;
+  status: "draft" | "enriching" | "enriched" | "published";
+  createdAt: number; // epoch ms
+  publishedAt?: number; // epoch ms, set when status becomes "published"
+}
+
+/** A mastery target deadline set by the teacher for a topic. */
+export interface MasteryDeadline {
+  topic: string;
+  date: string; // ISO date string, e.g. "2026-06-30"
+  setAt: number; // epoch ms
+}
+
+/** A student request for the teacher to call/intervene. */
+export interface CallRequest {
+  id: string;
+  studentId: string;
+  conceptId: string;
+  ts: number; // epoch ms
+  status: "open" | "resolved";
+  lastDiagnosis?: string; // last agent diagnosis text, if any
+}
+
 // ─── API response shapes (the wire contract) ────────────────────────
 
 export interface DashboardResponse {
@@ -203,6 +232,9 @@ export interface DashboardResponse {
   topicMastery: TopicMastery[];
   insight: string; // class-level auto-insight sentence
   serverTime: string; // pre-formatted "Tue, Mar 18 · 9:30 AM"
+  callRequests: CallRequest[];
+  deadline: MasteryDeadline | null;
+  activeCourse: Course;
 }
 
 export interface StudentGraphResponse {

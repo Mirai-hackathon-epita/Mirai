@@ -3,11 +3,14 @@ import { kv } from "@/lib/store/kv";
 import { FRACTIONS_GRAPH } from "@/lib/domain/conceptGraph";
 import type {
   ActivityItem,
+  CallRequest,
   ClassStats,
   ConceptGraph,
   ConceptMastery,
+  Course,
   Exercise,
   FeedEvent,
+  MasteryDeadline,
   Misconception,
   Student,
   Submission,
@@ -46,6 +49,11 @@ const K = {
   classStats: "mira:classStats",
   topicMastery: "mira:topicMastery",
   insight: "mira:insight",
+  // Teacher-side keys (Phase 0+)
+  activeCourse: "mira:course:active",
+  activeGraph: "mira:graph:active",
+  deadline: "mira:deadline",
+  callRequests: "mira:callRequests",
 } as const;
 
 let seeding: Promise<void> | null = null;
@@ -77,6 +85,22 @@ export async function ensureSeeded(): Promise<void> {
     await store.setJSON(K.classStats, CLASS_STATS);
     await store.setJSON(K.topicMastery, TOPIC_MASTERY);
     await store.setJSON(K.insight, CLASS_INSIGHT);
+
+    // Seed default published course (backed by FRACTIONS_GRAPH).
+    const defaultCourse: Course = {
+      id: "course-fractions-default",
+      topic: "Fractions",
+      sourceName: "Fractions — Grade 7 (seed)",
+      status: "published",
+      createdAt: Date.now(),
+      publishedAt: Date.now(),
+    };
+    await store.setJSON(K.activeCourse, defaultCourse);
+    await store.setJSON(K.activeGraph, FRACTIONS_GRAPH);
+    // Seed empty call requests and no deadline.
+    await store.setJSON(K.callRequests, []);
+    await store.setJSON(K.deadline, null);
+
     await store.setJSON(K.seedVersion, SEED_VERSION);
     console.log(`[mira] seeded store (v${SEED_VERSION}, ${store.backend})`);
   })();
@@ -202,4 +226,68 @@ export async function getTopicMastery(): Promise<TopicMastery[]> {
 export async function getInsight(): Promise<string> {
   await ensureSeeded();
   return (await kv().getJSON<string>(K.insight)) ?? CLASS_INSIGHT;
+}
+
+// ── Active course ──
+export async function getActiveCourse(): Promise<Course> {
+  await ensureSeeded();
+  const stored = await kv().getJSON<Course>(K.activeCourse);
+  if (stored) return stored;
+  // Fallback: synthesise a published course from FRACTIONS_GRAPH.
+  return {
+    id: "course-fractions-default",
+    topic: FRACTIONS_GRAPH.topic,
+    sourceName: "Fractions — Grade 7 (seed)",
+    status: "published",
+    createdAt: 0,
+    publishedAt: 0,
+  };
+}
+
+export async function saveCourse(course: Course): Promise<void> {
+  await kv().setJSON(K.activeCourse, course);
+}
+
+// ── Active concept graph (KV-backed, falls back to FRACTIONS_GRAPH) ──
+export async function getActiveConceptGraph(): Promise<ConceptGraph> {
+  await ensureSeeded();
+  return (await kv().getJSON<ConceptGraph>(K.activeGraph)) ?? FRACTIONS_GRAPH;
+}
+
+export async function saveActiveConceptGraph(
+  graph: ConceptGraph,
+): Promise<void> {
+  await kv().setJSON(K.activeGraph, graph);
+}
+
+// ── Deadline ──
+export async function getDeadline(): Promise<MasteryDeadline | null> {
+  await ensureSeeded();
+  return kv().getJSON<MasteryDeadline>(K.deadline);
+}
+
+export async function saveDeadline(d: MasteryDeadline): Promise<void> {
+  await kv().setJSON(K.deadline, d);
+}
+
+// ── Call requests ──
+export async function getCallRequests(): Promise<CallRequest[]> {
+  await ensureSeeded();
+  return (await kv().getJSON<CallRequest[]>(K.callRequests)) ?? [];
+}
+
+export async function pushCallRequest(r: CallRequest): Promise<void> {
+  await ensureSeeded();
+  const all = await getCallRequests();
+  all.unshift(r);
+  await kv().setJSON(K.callRequests, all);
+}
+
+export async function resolveCallRequest(id: string): Promise<void> {
+  await ensureSeeded();
+  const all = await getCallRequests();
+  const updated = all.map((r) =>
+    r.id === id ? { ...r, status: "resolved" as const } : r,
+  );
+  await kv().setJSON(K.callRequests, updated);
 }

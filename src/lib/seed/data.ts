@@ -385,4 +385,4 @@ export const TOPIC_MASTERY: TopicMastery[] = [
 export const CLASS_INSIGHT =
   "60% of the class stalls at the same step — finding a common denominator. Re-teach that move first in tutorial and three of the four flags should clear.";
 
-export const SEED_VERSION = 3;
+export const SEED_VERSION = 4;

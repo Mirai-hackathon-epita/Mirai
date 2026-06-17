@@ -19,6 +19,7 @@ const config: Config = {
   ],
   moduleNameMapper: {
     "^server-only$": "<rootDir>/src/__mocks__/server-only.ts",
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
   transform: {
     "^.+\\.tsx?$": ["ts-jest", { tsconfig: { jsx: "react" } }],
