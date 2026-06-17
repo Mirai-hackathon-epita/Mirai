@@ -1,0 +1,140 @@
+/* ─── Mira · Editorial Warm — global tokens & base ─────────────────── */
+
+:root {
+  /* surfaces */
+  --bg: #e7e5e1;
+  --paper: #f7f2ea;
+  --paper-2: #fcfaf6;
+  --paper-3: #f1ece2;
+  --paper-4: #f3eee4;
+  --cream: #fbf7f0;
+  /* ink */
+  --ink: #161a22;
+  --ink-2: #3a424f;
+  --muted: #5a5247;
+  --mono: #8b7b68;
+  --faint: #a89d89;
+  /* terracotta */
+  --terracotta: #c2533a;
+  --terracotta-dark: #a8392e;
+  --terracotta-bg: #f6e2d9;
+  --terracotta-bg-2: #fbede9;
+  /* blue */
+  --blue: #2c4adf;
+  --blue-bg: #dce3fb;
+  /* green */
+  --green: #5c8a6e;
+  --green-dark: #3f6a4f;
+  --green-bg: #dde9e1;
+  /* amber */
+  --amber: #c28a2c;
+  --amber-bg: #f5e5c7;
+  /* neutrals */
+  --neutral: #e7e0d2;
+  --neutral-2: #cfc6b5;
+  --line: rgba(22, 26, 34, 0.08);
+  --line-2: rgba(22, 26, 34, 0.12);
+
+  --font-serif: "Newsreader", serif;
+  --font-sans: "Geist", sans-serif;
+  --font-mono: "Geist Mono", monospace;
+  --font-hand: "Caveat", cursive;
+
+  --shadow-card: 0 1px 2px rgba(22, 26, 34, 0.04);
+  --shadow-raised: 0 10px 30px rgba(60, 40, 20, 0.08);
+  --shadow-screen: 0 24px 60px rgba(60, 40, 20, 0.16);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+::selection {
+  background: rgba(194, 83, 58, 0.18);
+}
+
+/* utility helpers */
+.serif {
+  font-family: var(--font-serif);
+}
+.mono {
+  font-family: var(--font-mono);
+}
+.hand {
+  font-family: var(--font-hand);
+}
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--mono);
+}
+
+/* thin warm scrollbars inside app panels */
+.scroll::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+.scroll::-webkit-scrollbar-thumb {
+  background: rgba(22, 26, 34, 0.14);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@keyframes mira-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: mira-fade-up 0.32s ease both;
+}
+
+@keyframes mira-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+.pulse {
+  animation: mira-pulse 1.4s ease-in-out infinite;
+}
