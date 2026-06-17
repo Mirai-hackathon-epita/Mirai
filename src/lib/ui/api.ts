@@ -52,4 +52,6 @@ export const api = {
       "/api/teacher/course/visualize",
       body,
     ),
+  resetProgress: (id: string) =>
+    post<{ ok: boolean }>(`/api/students/${id}/reset`, {}),
 };

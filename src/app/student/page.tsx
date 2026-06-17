@@ -128,6 +128,35 @@ export default function StudentPage() {
         studentId={STUDENT_ID}
         exerciseContext={exercise.expression}
       />
+
+      {/* Demo reset button — bottom left */}
+      <button
+        onClick={async () => {
+          await api.resetProgress(STUDENT_ID);
+          setExercise(SEED_EXERCISE);
+          setProblemNumber(PROGRESS_INDEX + 1);
+          setProgressIndex(PROGRESS_INDEX);
+          setFeed(SEED_FEED);
+          setWorkKey((k) => k + 1);
+        }}
+        style={{
+          position: "fixed",
+          bottom: 16,
+          left: 16,
+          fontSize: 11,
+          fontFamily: "monospace",
+          color: "rgba(22,26,34,0.45)",
+          background: "rgba(247,242,234,0.85)",
+          border: "1px dashed rgba(22,26,34,0.22)",
+          borderRadius: 6,
+          padding: "5px 10px",
+          cursor: "pointer",
+          backdropFilter: "blur(4px)",
+          zIndex: 9999,
+        }}
+      >
+        ↺ restart progress for demo
+      </button>
     </div>
   );
 }
