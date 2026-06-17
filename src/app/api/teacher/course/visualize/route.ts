@@ -18,9 +18,13 @@ export async function POST(req: NextRequest) {
   const body = (await req.json()) as {
     conceptId?: string;
     currentKind?: string;
+    expression?: string;
+    answer?: string;
   };
   const conceptId = body.conceptId ?? "adding-unlike-fractions";
   const currentKind = body.currentKind;
+  const expression = body.expression ?? "";
+  const answer = body.answer ?? "";
 
   if (!LLM_ENABLED) {
     // Seed fallback: always return a number-line (unless that's already shown)
@@ -45,18 +49,21 @@ export async function POST(req: NextRequest) {
         {
           role: "system",
           content:
-            "You are Mira, an adaptive math tutor. Generate an interactive visualization spec for a fractions concept. Return JSON only.",
+            "You are Mira, an adaptive math tutor. Generate an interactive visualization spec to help a grade-7 student understand a specific fractions problem. Use the exact numbers from the exercise. Return JSON only.",
         },
         {
           role: "user",
           content:
-            `Generate a visualization for the concept "${conceptId}" (fractions, grade 7). ` +
+            `Exercise: "${expression || conceptId}"` +
+            (answer ? ` — answer: ${answer}` : "") +
+            `\n\n` +
             (currentKind
               ? `The student already has a ${currentKind} visualization — generate a DIFFERENT type. `
               : "") +
-            `Return ONE of these exact JSON shapes:\n` +
+            `Return ONE of these exact JSON shapes, using the actual numbers from the exercise:\n` +
             `- {"kind":"number-line","title":"...","markers":[{"value":0.75,"label":"3/4","color":"#C2533A"},{"value":0.167,"label":"1/6","color":"#2C4ADF"},{"value":0.917,"label":"11/12","color":"#5C8A6E"}]}\n` +
-            `- {"kind":"area-model","title":"...","parts":[{"label":"3/4","color":"#C2533A","size":75},{"label":"1/4 remaining","color":"#E7E5E1","size":25}]}`,
+            `- {"kind":"area-model","title":"...","parts":[{"label":"3/4","color":"#C2533A","size":75},{"label":"1/4 remaining","color":"#E7E5E1","size":25}]}\n` +
+            `marker "value" fields must be decimals between 0 and 1. "size" fields must sum to 100.`,
         },
       ],
       { temperature: 0.6, maxTokens: 400 },
