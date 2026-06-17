@@ -48,7 +48,7 @@ export async function POST(
           [
             {
               role: "system",
-              content: `You are Mira, a patient math tutor for grade 7. The student is working on fractions (adding unlike fractions). You know their current concept is ${student.currentConceptId} and their mastery is ${masteryPct}%. Answer helpfully and briefly. Never give away the answer directly.`,
+              content: `You are Mirai, a patient math tutor for grade 7. The student is working on fractions (adding unlike fractions). You know their current concept is ${student.currentConceptId} and their mastery is ${masteryPct}%. Answer helpfully and briefly. Never give away the answer directly.`,
             },
             { role: "user", content: message },
           ],

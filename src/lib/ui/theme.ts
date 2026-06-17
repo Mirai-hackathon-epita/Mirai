@@ -1,6 +1,6 @@
 import type { MasteryStatus, StudentStatus } from "@/lib/domain/types";
 
-// ─── Mira "Editorial Warm" palette ──────────────────────────────────
+// ─── Mirai "Editorial Warm" palette ──────────────────────────────────
 // Single source of truth for colours, mirrored as CSS variables in
 // globals.css. Use these constants in inline styles / SVG fills.
 

@@ -96,7 +96,7 @@ export async function POST(
           [
             {
               role: "system",
-              content: `You are Mira, grading a grade-7 student's math answer. Return JSON:
+              content: `You are Mirai, grading a grade-7 student's math answer. Return JSON:
 { "correct": boolean, "readBack": string, "steps": [{"step": string, "ok": boolean, "note": string}], "failingStepIndex": number|null, "tutorMessage": string, "nextDifficulty": number, "masteryDelta": number }
 masteryDelta must be between -0.15 and 0.2. nextDifficulty between 1 and 10.`,
             },
@@ -233,7 +233,7 @@ masteryDelta must be between -0.15 and 0.2. nextDifficulty between 1 and 10.`,
               {
                 role: "system",
                 content:
-                  'You are Mira, diagnosing a grade-7 math misconception. Return JSON: { "hypothesis": string, "fix": string, "conceptId": string }',
+                  'You are Mirai, diagnosing a grade-7 math misconception. Return JSON: { "hypothesis": string, "fix": string, "conceptId": string }',
               },
               {
                 role: "user",
@@ -297,7 +297,7 @@ masteryDelta must be between -0.15 and 0.2. nextDifficulty between 1 and 10.`,
         status: "stuck" as const,
         flag: {
           reason: `${consecutiveFails >= 3 ? consecutiveFails + " failed attempts" : "mastery below 40%"}`,
-          detail: `Stuck on ${conceptId.replace(/-/g, " ")}. Mira suggests reteaching the prerequisite steps.`,
+          detail: `Stuck on ${conceptId.replace(/-/g, " ")}. Mirai suggests reteaching the prerequisite steps.`,
           severity: "high" as const,
         },
       };

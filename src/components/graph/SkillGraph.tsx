@@ -253,7 +253,7 @@ interface Props {
   onSelect: (id: string) => void;
 }
 
-/** SVG edge paths copied exactly from the design (Mira.dc.html lines 381–388). */
+/** SVG edge paths copied exactly from the design (Mirai.dc.html lines 381–388). */
 function Edges() {
   return (
     <svg

@@ -24,7 +24,7 @@ export function Nav() {
         gap: 24,
       }}
     >
-      <Link href="/" aria-label="Mira home" style={{ flex: "none" }}>
+      <Link href="/" aria-label="Mirai home" style={{ flex: "none" }}>
         <Logo size={26} />
       </Link>
 

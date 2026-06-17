@@ -33,7 +33,7 @@ const FEATURES: Feature[] = [
     tileBg: C.greenBg,
     tileFg: C.greenDark,
     title: "Grades handwriting",
-    body: "Students solve on paper or screen. Mira reads their handwritten math and grades it instantly.",
+    body: "Students solve on paper or screen. Mirai reads their handwritten math and grades it instantly.",
   },
   {
     icon: "bell",

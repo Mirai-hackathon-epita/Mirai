@@ -16,7 +16,7 @@ import { FlaggedList } from "@/components/teacher/FlaggedList";
 import { RosterTable } from "@/components/teacher/RosterTable";
 import { ActivityTimeline } from "@/components/teacher/ActivityTimeline";
 import { TopicMasteryBars } from "@/components/teacher/TopicMasteryBars";
-import { AskMira } from "@/components/teacher/AskMira";
+import { AskMirai } from "@/components/teacher/AskMirai";
 import { DeadlineControl } from "@/components/teacher/DeadlineControl";
 import { CallRequestsPanel } from "@/components/teacher/CallRequestsPanel";
 import { api } from "@/lib/ui/api";
@@ -178,7 +178,7 @@ export default function TeacherDashboard() {
               />
               <ActivityTimeline activity={activity} />
               <TopicMasteryBars topics={topics} onRetaught={fetchDashboard} />
-              <AskMira />
+              <AskMirai />
             </div>
           </div>
         </div>

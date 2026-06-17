@@ -382,7 +382,7 @@ function UploadArea({ onResult }: UploadAreaProps) {
           lineHeight: 1.55,
         }}
       >
-        Paste course text or load a .txt file. Mira's agent will extract a
+        Paste course text or load a .txt file. Mirai's agent will extract a
         concept graph and generate visualizations automatically.
       </p>
 
@@ -547,7 +547,7 @@ function UploadArea({ onResult }: UploadAreaProps) {
             Enriching…
           </>
         ) : (
-          <>✦ Enrich with Mira Agent</>
+          <>✦ Enrich with Mirai Agent</>
         )}
       </button>
     </div>
@@ -631,7 +631,7 @@ export default function TeacherCoursePage() {
                 maxWidth: 560,
               }}
             >
-              Upload your course material and Mira's autonomous agent will
+              Upload your course material and Mirai's autonomous agent will
               extract a concept graph, build prerequisite edges, and generate
               interactive visualizations — all in one pass.
             </p>

@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import { C, FONT } from "@/lib/ui/theme";
-import { Icon, MiraMark } from "@/components/ui";
+import { Icon, MiraiMark } from "@/components/ui";
 
 const FALLBACK =
   "Class is mostly stuck on common denominators — focus tutorial time there.";
 
-/** Ask Mira a free-form question about the class. */
-export function AskMira() {
+/** Ask Mirai a free-form question about the class. */
+export function AskMirai() {
   const [question, setQuestion] = React.useState("");
   const [answer, setAnswer] = React.useState<string | null>(null);
   const [loading, setLoading] = React.useState(false);
@@ -51,9 +51,9 @@ export function AskMira() {
           marginBottom: 12,
         }}
       >
-        <MiraMark size={22} />
+        <MiraiMark size={22} />
         <h4 style={{ fontSize: 15, fontWeight: 600, margin: 0 }}>
-          Ask Mira
+          Ask Mirai
         </h4>
       </div>
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 8 }}>

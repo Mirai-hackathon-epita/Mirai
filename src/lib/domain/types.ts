@@ -1,4 +1,4 @@
-// ─── Mira shared domain types ───────────────────────────────────────
+// ─── Mirai shared domain types ───────────────────────────────────────
 // Single source of truth for the data contract shared across the agentic
 // backend and every frontend screen. Keep this stable; it is the contract.
 
@@ -117,7 +117,7 @@ export interface GradeResult {
   readBack: string; // what the OCR/model read back
   steps: StepFeedback[];
   failingStepIndex: number | null;
-  tutorMessage: string; // Mira's spoken feedback
+  tutorMessage: string; // Mirai's spoken feedback
   nextDifficulty: number;
   masteryDelta: number; // change applied to the concept mastery
 }
@@ -184,7 +184,7 @@ export interface TopicMastery {
   mastery: number; // 0..1
 }
 
-/** An item in Mira's class-level activity log. */
+/** An item in Mirai's class-level activity log. */
 export interface ActivityItem {
   id: string;
   time: string; // "9:24", "Mon"

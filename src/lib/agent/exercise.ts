@@ -12,7 +12,7 @@ export async function getNextExercise(conceptId: string): Promise<Exercise> {
           {
             role: "system",
             content:
-              'You are Mira, an AI math tutor. Generate a grade-7 fractions exercise. Return JSON only: { "id": string, "conceptId": string, "kind": "practice", "prompt": string, "expression": string, "difficulty": number, "answer": string, "steps": string[] }',
+              'You are Mirai, an AI math tutor. Generate a grade-7 fractions exercise. Return JSON only: { "id": string, "conceptId": string, "kind": "practice", "prompt": string, "expression": string, "difficulty": number, "answer": string, "steps": string[] }',
           },
           {
             role: "user",

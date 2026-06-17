@@ -4,7 +4,7 @@ export { Button } from "./Button";
 export type { ButtonProps } from "./Button";
 export {
   Logo,
-  MiraMark,
+  MiraiMark,
   Eyebrow,
   Card,
   Avatar,

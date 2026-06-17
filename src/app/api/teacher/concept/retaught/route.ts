@@ -36,7 +36,7 @@ async function buildProbeExercise(conceptId: string): Promise<Exercise> {
           {
             role: "system",
             content:
-              "You are Mira, an AI math tutor. Generate a grade-7 fractions probe exercise. " +
+              "You are Mirai, an AI math tutor. Generate a grade-7 fractions probe exercise. " +
               'Return JSON: { "id": string, "conceptId": string, "kind": "probe", ' +
               '"prompt": string, "expression": string, "difficulty": number, ' +
               '"answer": string, "steps": string[] }',
@@ -175,7 +175,7 @@ export async function POST(req: NextRequest) {
         const event = makeEvent(
           student.id,
           "replan",
-          `Concept re-taught by teacher → Mira is re-probing "${conceptLabel}" for you.`,
+          `Concept re-taught by teacher → Mirai is re-probing "${conceptLabel}" for you.`,
         );
         await pushFeed(event);
       }),
@@ -190,7 +190,7 @@ export async function POST(req: NextRequest) {
     const activityItem: ActivityItem = {
       id: genId("act"),
       time: timeLabel,
-      text: `**Mira** re-probing **${students.length}** students on **${conceptLabel}** after re-teach.`,
+      text: `**Mirai** re-probing **${students.length}** students on **${conceptLabel}** after re-teach.`,
     };
     const existingActivity = await getActivity();
     await saveActivity([activityItem, ...existingActivity]);

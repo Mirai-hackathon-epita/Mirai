@@ -1,4 +1,4 @@
-# Teacher-Side Feature Plan — Mira
+# Teacher-Side Feature Plan — Mirai
 
 > Scoped from the design mockups + feature classification session.
 > "Drill into a student's skill graph" is **out of scope** for the teacher side — the teacher sees class-level data only.
@@ -7,14 +7,14 @@
 
 ## User Journey
 
-1. Upload course → Mira enriches it (concept graph + visualizations)
+1. Upload course → Mirai enriches it (concept graph + visualizations)
 2. Review & publish enriched course to class
 3. Optionally set a mastery deadline
 4. Monitor dashboard (async, between tutorials)
 5. Act on escalations during TD (pull students aside)
 6. Receive "Call teacher" requests from students in real time
 7. Mark concepts as re-taught → agents re-probe all students
-8. Ask Mira natural-language questions about class progress
+8. Ask Mirai natural-language questions about class progress
 
 ---
 
@@ -25,7 +25,7 @@ Teacher drops a PDF or slide deck for a topic (e.g. derivatives).
 - Single-topic for the demo, no broad subject coverage.
 
 ### 2. AI Course Enrichment
-Mira ingests the uploaded material and:
+Mirai ingests the uploaded material and:
 - Extracts a **concept prerequisite graph** (DAG) — the structure that drives all student planning.
 - Generates **interactive visualizations** for key concepts.
 - Produces an enriched, interactive course experience.
@@ -56,10 +56,10 @@ The main teacher-facing view. Read-only synthesis over the agents' persistent me
 #### Class roster table
 Columns: Student name | Current topic | Mastery bar + % | Status badge (On track / Needs attention / Blocked).
 
-#### Escalation panel — "Mira flagged these students"
+#### Escalation panel — "Mirai flagged these students"
 Each escalation includes:
 - Severity tag (e.g. Blocked, Falling behind).
-- Mira's **diagnosis** of the specific misconception.
+- Mirai's **diagnosis** of the specific misconception.
 - A **suggested intervention** ("5-min review of common factors").
 
 Used by the teacher to decide who to pull aside in TD.
@@ -68,7 +68,7 @@ Used by the teacher to decide who to pull aside in TD.
 Horizontal bar chart — one bar per concept in the DAG, showing class-average mastery.
 Surfaces where the majority is stuck ("60% blocked on chain rule → re-teach first in TD").
 
-#### Mira's activity feed
+#### Mirai's activity feed
 Timestamped, plain-language log of what each student's agent did autonomously:
 - "Léa failed 2 fraction problems → diagnosed numerator/denominator confusion → lowered difficulty, generated scaffolded exercise, flagged teacher."
 
@@ -97,8 +97,8 @@ After a TD intervention, teacher marks a concept as re-taught.
 
 ---
 
-### 9. Ask Mira About Progress *(natural language Q&A)*
-Teacher types a question; Mira synthesizes an answer from all students' persistent memory and skill graphs.
+### 9. Ask Mirai About Progress *(natural language Q&A)*
+Teacher types a question; Mirai synthesizes an answer from all students' persistent memory and skill graphs.
 
 Example queries:
 - "Who should I pull aside today?"
@@ -117,7 +117,7 @@ Example queries:
 | Act on escalations / pull-aside workflow | Tier 1 (read-only, dashboard artifact) |
 | Mark concept as re-taught | Tier 2 |
 | Set mastery deadline | Tier 2 |
-| Ask Mira natural-language Q&A | Tier 2 |
+| Ask Mirai natural-language Q&A | Tier 2 |
 | AI course enrichment (interactive viz) | Tier 3 — pre-generated/cached |
 
 ---

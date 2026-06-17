@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { C, FONT } from "@/lib/ui/theme";
-import { Icon, MiraMark, Button } from "@/components/ui";
+import { Icon, MiraiMark, Button } from "@/components/ui";
 import { api } from "@/lib/ui/api";
 import type { Exercise, FeedEvent, GradeResult, OcrResponse } from "@/lib/domain/types";
 
@@ -352,7 +352,7 @@ export function WorkPanel({ exercise, onNextProblem, onAskHint, onFeedUpdate, on
             padding: "11px 14px",
           }}
         >
-          <span style={{ color: C.blue, flexShrink: 0 }}>Mira read →</span>
+          <span style={{ color: C.blue, flexShrink: 0 }}>Mirai read →</span>
           {ocrResult.text}
         </div>
       )}
@@ -433,7 +433,7 @@ export function WorkPanel({ exercise, onNextProblem, onAskHint, onFeedUpdate, on
           }
           onMouseLeave={(e) => (e.currentTarget.style.filter = "none")}
         >
-          Ask Mira for a hint
+          Ask Mirai for a hint
         </button>
       </div>
     </div>
@@ -500,7 +500,7 @@ function FeedbackCard({ result }: { result: GradeResult }) {
           </span>
         </div>
         <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-          <MiraMark size={24} />
+          <MiraiMark size={24} />
           <p
             style={{
               fontSize: 14,
@@ -592,7 +592,7 @@ function FeedbackCard({ result }: { result: GradeResult }) {
         </p>
       )}
       <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-        <MiraMark size={24} />
+        <MiraiMark size={24} />
         <p
           style={{
             fontSize: 14,

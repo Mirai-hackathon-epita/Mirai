@@ -37,7 +37,7 @@ export const STUDENTS: Student[] = [
     flag: {
       reason: "3 failed attempts",
       detail:
-        "Stuck on adding fractions with unlike denominators. Mira suggests reteaching common denominators.",
+        "Stuck on adding fractions with unlike denominators. Mirai suggests reteaching common denominators.",
       severity: "high",
     },
   },

@@ -8,7 +8,7 @@ import type { FlagInfo, Student } from "@/lib/domain/types";
 
 type Flagged = Student & { flag: FlagInfo };
 
-/** "Mira flagged these students" — pull-aside list for today's tutorial. */
+/** "Mirai flagged these students" — pull-aside list for today's tutorial. */
 export function FlaggedList({ flagged }: { flagged: Flagged[] }) {
   return (
     <div
@@ -37,7 +37,7 @@ export function FlaggedList({ flagged }: { flagged: Flagged[] }) {
           }}
         />
         <h4 style={{ fontSize: 15, fontWeight: 600, margin: 0 }}>
-          Mira flagged these students
+          Mirai flagged these students
         </h4>
       </div>
       <p style={{ fontSize: 13, color: C.mono, margin: "0 0 16px" }}>

@@ -19,7 +19,7 @@ export function BottomCta() {
           margin: "0 0 20px",
         }}
       >
-        Bring Mira to your classroom.
+        Bring Mirai to your classroom.
       </h2>
       <Link
         href="/teacher"

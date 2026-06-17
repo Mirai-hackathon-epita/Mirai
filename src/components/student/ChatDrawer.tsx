@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { C, FONT } from "@/lib/ui/theme";
-import { MiraMark, Icon } from "@/components/ui";
+import { MiraiMark, Icon } from "@/components/ui";
 import { api } from "@/lib/ui/api";
 
 interface ChatMessage {
@@ -173,7 +173,7 @@ export function ChatDrawer({ open, onClose, studentId, exerciseContext }: ChatDr
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <MiraMark size={28} />
+            <MiraiMark size={28} />
             <div>
               <div
                 style={{
@@ -183,7 +183,7 @@ export function ChatDrawer({ open, onClose, studentId, exerciseContext }: ChatDr
                   color: C.ink,
                 }}
               >
-                Ask Mira
+                Ask Mirai
               </div>
               <div
                 style={{
@@ -232,7 +232,7 @@ export function ChatDrawer({ open, onClose, studentId, exerciseContext }: ChatDr
           ))}
           {sending && (
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <MiraMark size={22} />
+              <MiraiMark size={22} />
               <span
                 style={{
                   fontFamily: FONT.sans,
@@ -241,7 +241,7 @@ export function ChatDrawer({ open, onClose, studentId, exerciseContext }: ChatDr
                   fontStyle: "italic",
                 }}
               >
-                Mira is thinking…
+                Mirai is thinking…
               </span>
             </div>
           )}
@@ -262,7 +262,7 @@ export function ChatDrawer({ open, onClose, studentId, exerciseContext }: ChatDr
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask Mira a question…"
+            placeholder="Ask Mirai a question…"
             rows={2}
             style={{
               flex: 1,
@@ -306,7 +306,7 @@ export function ChatDrawer({ open, onClose, studentId, exerciseContext }: ChatDr
 }
 
 function ChatBubble({ message }: { message: ChatMessage }) {
-  const isMira = message.role === "mira";
+  const isMirai = message.role === "mira";
 
   return (
     <div
@@ -314,17 +314,17 @@ function ChatBubble({ message }: { message: ChatMessage }) {
         display: "flex",
         alignItems: "flex-start",
         gap: 8,
-        flexDirection: isMira ? "row" : "row-reverse",
+        flexDirection: isMirai ? "row" : "row-reverse",
       }}
     >
-      {isMira && <MiraMark size={26} />}
+      {isMirai && <MiraiMark size={26} />}
 
       <div
         style={{
           maxWidth: "82%",
-          background: isMira ? C.paper3 : C.terracotta,
-          color: isMira ? C.ink2 : C.cream,
-          borderRadius: isMira ? "4px 12px 12px 12px" : "12px 4px 12px 12px",
+          background: isMirai ? C.paper3 : C.terracotta,
+          color: isMirai ? C.ink2 : C.cream,
+          borderRadius: isMirai ? "4px 12px 12px 12px" : "12px 4px 12px 12px",
           padding: "10px 14px",
           fontSize: 14,
           lineHeight: 1.5,

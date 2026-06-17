@@ -1,15 +1,15 @@
-# Mira — Integration Contract (for parallel build)
+# Mirai — Integration Contract (for parallel build)
 
-This is the shared contract for everyone building Mira in parallel. **The
+This is the shared contract for everyone building Mirai in parallel. **The
 foundation below already exists and is stable — do not modify it.** Build only
 the files assigned to your area. Everything is **English only** (code,
 comments, UI copy).
 
-Mira is **the autonomous AI tutor**: one self-paced agent per student that
+Mirai is **the autonomous AI tutor**: one self-paced agent per student that
 plans → generates → grades → diagnoses → escalates, on a grade-7 **fractions**
 curriculum. The teacher only supervises.
 
-The pixel reference for all four screens is **`mira/Mira.dc.html`** (open it /
+The pixel reference for all four screens is **`mira/Mirai.dc.html`** (open it /
 read the relevant `<!-- ===== NN · ... ===== -->` block). Match it faithfully:
 same layout, spacing, type, colour. It uses inline styles; do the same in React
 (it's the fastest faithful path) and pull colours from the theme constants.
@@ -35,10 +35,10 @@ Fonts are already loaded globally (layout `<head>`). CSS vars mirror `C`
 ## UI primitives — `@/components/ui`
 
 ```ts
-import { Logo, MiraMark, Eyebrow, Card, Avatar, Chip, ProgressBar, Button, Icon } from "@/components/ui";
+import { Logo, MiraiMark, Eyebrow, Card, Avatar, Chip, ProgressBar, Button, Icon } from "@/components/ui";
 ```
 
-- `<Logo size?/>` — "Mira." wordmark. `<MiraMark size?/>` — terracotta "M" speaker avatar.
+- `<Logo size?/>` — "Mirai." wordmark. `<MiraiMark size?/>` — terracotta "M" speaker avatar.
 - `<Eyebrow color? style?>` — uppercase mono caption.
 - `<Card raised? style?>` — paper surface (paper2 bg, hairline border, radius 14).
 - `<Avatar initials size? bg? fg?/>`, `<Chip fg? bg? mono?>`, `<ProgressBar value(0..1) color? track? height?/>`.

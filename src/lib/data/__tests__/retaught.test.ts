@@ -182,7 +182,7 @@ describe("saveActivity (re-teach pushes new item)", () => {
     const newItem = {
       id: "act-new",
       time: "9:30 AM",
-      text: "**Mira** re-probing **4** students on **Adding unlike fractions** after re-teach.",
+      text: "**Mirai** re-probing **4** students on **Adding unlike fractions** after re-teach.",
     };
     await repoModule.saveActivity([newItem, ...existing]);
 

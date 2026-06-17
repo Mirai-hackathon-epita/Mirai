@@ -91,7 +91,7 @@ export function CallRequestsPanel({ callRequests, onResolved }: CallRequestsPane
         </h4>
       </div>
       <p style={{ fontSize: 13, color: C.mono, margin: "0 0 16px" }}>
-        Students who asked Mira to call you over.
+        Students who asked Mirai to call you over.
       </p>
 
       {/* Empty state */}

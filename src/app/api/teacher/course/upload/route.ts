@@ -46,7 +46,7 @@ const FALLBACK_STEPS = [
 
 function buildEnrichmentPrompt(text: string): string {
   return (
-    `You are Mira, an autonomous AI tutor agent. Analyze this course text and extract a concept prerequisite graph (DAG) plus visualizations.\n\n` +
+    `You are Mirai, an autonomous AI tutor agent. Analyze this course text and extract a concept prerequisite graph (DAG) plus visualizations.\n\n` +
     `COURSE TEXT:\n${text.slice(0, 4000)}\n\n` +
     `Return ONLY valid JSON matching this exact schema:\n` +
     `{\n` +
@@ -174,7 +174,7 @@ export async function POST(req: NextRequest) {
         {
           role: "system",
           content:
-            "You are Mira, an autonomous AI tutor agent specializing in concept graph extraction. Return only valid JSON.",
+            "You are Mirai, an autonomous AI tutor agent specializing in concept graph extraction. Return only valid JSON.",
         },
         {
           role: "user",

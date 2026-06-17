@@ -55,7 +55,7 @@ export async function POST(req: NextRequest) {
             {
               role: "system",
               content:
-                "You are Mira, the autonomous AI tutor assistant. Answer the teacher's question about class progress using the data provided. Be concise and actionable.",
+                "You are Mirai, the autonomous AI tutor assistant. Answer the teacher's question about class progress using the data provided. Be concise and actionable.",
             },
             {
               role: "user",

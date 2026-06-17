@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
         {
           role: "system",
           content:
-            "You are Mira, an adaptive math tutor. Generate an interactive visualization spec to help a grade-7 student understand a specific fractions problem. Use the exact numbers from the exercise. Return JSON only.",
+            "You are Mirai, an adaptive math tutor. Generate an interactive visualization spec to help a grade-7 student understand a specific fractions problem. Use the exact numbers from the exercise. Return JSON only.",
         },
         {
           role: "user",

@@ -129,7 +129,7 @@ export function DeadlineControl({ deadline, onDeadlineSet }: DeadlineControlProp
       {/* Confirmation / error feedback */}
       {saved && (
         <span style={{ fontSize: 12, color: C.green, fontFamily: FONT.mono }}>
-          Saved — Mira re-paced the class.
+          Saved — Mirai re-paced the class.
         </span>
       )}
       {error && (

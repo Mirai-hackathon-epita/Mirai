@@ -5,7 +5,7 @@ import { C, FONT } from "@/lib/ui/theme";
 import { renderBold } from "@/lib/ui/format";
 import type { ActivityItem } from "@/lib/domain/types";
 
-/** "Mira's activity" timeline — the autonomous loop, observable. */
+/** "Mirai's activity" timeline — the autonomous loop, observable. */
 export function ActivityTimeline({ activity }: { activity: ActivityItem[] }) {
   return (
     <div
@@ -18,7 +18,7 @@ export function ActivityTimeline({ activity }: { activity: ActivityItem[] }) {
       }}
     >
       <h4 style={{ fontSize: 15, fontWeight: 600, margin: "0 0 16px" }}>
-        Mira&apos;s activity
+        Mirai&apos;s activity
       </h4>
       <div style={{ display: "flex", flexDirection: "column", gap: 15 }}>
         {activity.map((a) => (

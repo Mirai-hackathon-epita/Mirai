@@ -1,8 +1,8 @@
 import * as React from "react";
 import { C, FONT } from "@/lib/ui/theme";
-import { Icon, MiraMark, Chip } from "@/components/ui";
+import { Icon, MiraiMark, Chip } from "@/components/ui";
 
-// Hero side card: a handwritten fraction solution, read & graded by Mira,
+// Hero side card: a handwritten fraction solution, read & graded by Mirai,
 // with a green "Correct" pill and a tutor follow-up message.
 
 export function HandwritingCard() {
@@ -29,7 +29,7 @@ export function HandwritingCard() {
         <span
           style={{ fontFamily: FONT.mono, fontSize: 12, color: C.mono }}
         >
-          Handwritten · read &amp; graded by Mira
+          Handwritten · read &amp; graded by Mirai
         </span>
         <span
           style={{
@@ -68,7 +68,7 @@ export function HandwritingCard() {
       <div style={{ height: 1, background: C.line, margin: "18px 0" }} />
 
       <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-        <MiraMark size={24} />
+        <MiraiMark size={24} />
         <p
           style={{
             fontSize: 14,

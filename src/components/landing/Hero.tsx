@@ -56,7 +56,7 @@ export function Hero() {
             maxWidth: "46ch",
           }}
         >
-          Upload your course. Mira builds personalized practice for each
+          Upload your course. Mirai builds personalized practice for each
           learner, grades the math they write by hand, and tells you exactly who
           to pull aside next.
         </p>

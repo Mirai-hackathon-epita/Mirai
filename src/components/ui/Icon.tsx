@@ -1,6 +1,6 @@
 import * as React from "react";
 
-// Stroke icons matching the Mira design (Feather-style, 1.7 stroke).
+// Stroke icons matching the Mirai design (Feather-style, 1.7 stroke).
 // Add new glyphs here so every screen shares one icon vocabulary.
 
 const PATHS: Record<string, React.ReactNode> = {

@@ -1,4 +1,4 @@
-# Teacher-Side Implementation Plan — Mira
+# Teacher-Side Implementation Plan — Mirai
 
 > Build plan for the four missing teacher features. Companion to the feature spec in
 > [TEACHER_PLAN.md](TEACHER_PLAN.md). English-only deliverables (CLAUDE.md rule).
@@ -13,7 +13,7 @@
 
 ## Current state (verified)
 
-**Already working (read-only over seed/KV):** dashboard stat cards, roster, flagged/escalation list, topic-mastery bars, activity feed, "Ask Mira" NL Q&A (`/api/teacher/ask`), on-demand AI visualizations (`/api/teacher/course/visualize`).
+**Already working (read-only over seed/KV):** dashboard stat cards, roster, flagged/escalation list, topic-mastery bars, activity feed, "Ask Mirai" NL Q&A (`/api/teacher/ask`), on-demand AI visualizations (`/api/teacher/course/visualize`).
 
 **Missing:** real course upload, AI enrichment → concept-graph extraction, review & publish, set mastery deadline, receive "Call teacher" requests, mark-concept-re-taught.
 
@@ -61,7 +61,7 @@ Owns the shared contract. No feature logic.
 - Add `api.markRetaught` to `ui/api.ts`.
 
 **Agent C — Mastery deadline + Call-teacher**
-- Deadline: `POST /api/teacher/deadline` `{ topic, date }` → store; dashboard renders it (header/stat area); student planning reads it to set a `pace` indicator + a "Mira re-paced N students" activity item. Add a deadline control to the dashboard.
+- Deadline: `POST /api/teacher/deadline` `{ topic, date }` → store; dashboard renders it (header/stat area); student planning reads it to set a `pace` indicator + a "Mirai re-paced N students" activity item. Add a deadline control to the dashboard.
 - Call-teacher: `POST /api/students/[id]/call` creates a `CallRequest` (with last diagnosis); student page gets a **"Call teacher"** button. Dashboard renders a **Call requests** panel from `DashboardResponse.callRequests` (student + current topic + last diagnosis), with a resolve action (`/api/teacher/call/[id]/resolve`).
 - Add `api.setDeadline`, `api.callTeacher`, `api.resolveCall` to `ui/api.ts`.
 
@@ -70,7 +70,7 @@ Owns the shared contract. No feature logic.
 - Wire the three features into the dashboard page layout coherently; ensure the student page reflects cross-effects (published unlock, re-probe, call confirmation).
 - `jest` for new domain/repo logic; `npm run build` + `next lint` green; manual smoke of the full teacher→student loop.
 - Confirm graceful degradation with `MIRA_OFFLINE=1` / no API key (cached fallbacks everywhere).
-- Short demo script: upload → enrich → publish → student works → flagged → mark re-taught → call-teacher → ask Mira.
+- Short demo script: upload → enrich → publish → student works → flagged → mark re-taught → call-teacher → ask Mirai.
 
 ---
 

@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { C, FONT, statusColor } from "@/lib/ui/theme";
-import { MiraMark, Icon } from "@/components/ui";
+import { MiraiMark, Icon } from "@/components/ui";
 import { pct } from "@/lib/domain/mastery";
 import { CONCEPTS_BY_ID } from "@/lib/domain/conceptGraph";
 import type { ConceptMastery } from "@/lib/domain/types";
@@ -52,7 +52,7 @@ export function GraphDetail({ conceptId, mastery }: Props) {
   // Determine the weak-link prereq
   const weakLink = prereqs.find((p) => p.cm?.weakLink);
 
-  // Mira note text (static for demo, matches design spec for adding-unlike-fractions)
+  // Mirai note text (static for demo, matches design spec for adding-unlike-fractions)
   const miraNoteForFocus =
     conceptId === "adding-unlike-fractions"
       ? "Let's lock in **common denominators** first — that one move unblocks adding, subtracting, and comparing. I've lined up 8 practice problems for you."
@@ -286,7 +286,7 @@ export function GraphDetail({ conceptId, mastery }: Props) {
         </>
       )}
 
-      {/* Mira note */}
+      {/* Mirai note */}
       <div
         style={{
           background: C.paper,
@@ -297,7 +297,7 @@ export function GraphDetail({ conceptId, mastery }: Props) {
         }}
       >
         <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-          <MiraMark size={24} />
+          <MiraiMark size={24} />
           <p
             style={{
               fontSize: 13.5,

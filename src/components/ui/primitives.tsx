@@ -5,7 +5,7 @@ import { C, FONT } from "@/lib/ui/theme";
 // Pure render (no hooks) so they work in both server and client components.
 // Faithful to the Editorial Warm design; extend via `style`.
 
-/** "Mira." wordmark. */
+/** "Mirai." wordmark. */
 export function Logo({ size = 24 }: { size?: number }) {
   return (
     <span
@@ -17,13 +17,13 @@ export function Logo({ size = 24 }: { size?: number }) {
         color: C.ink,
       }}
     >
-      Mira<span style={{ color: C.terracotta }}>.</span>
+      Mirai<span style={{ color: C.terracotta }}>.</span>
     </span>
   );
 }
 
-/** The terracotta "M" avatar that speaks Mira's tutor messages. */
-export function MiraMark({ size = 24 }: { size?: number }) {
+/** The terracotta "M" avatar that speaks Mirai's tutor messages. */
+export function MiraiMark({ size = 24 }: { size?: number }) {
   return (
     <span
       style={{

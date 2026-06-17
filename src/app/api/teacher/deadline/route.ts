@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
         hour: "numeric",
         minute: "2-digit",
       }),
-      text: `**Deadline set:** ${topic} by ${date} — Mira re-paced **${students.length}** students`,
+      text: `**Deadline set:** ${topic} by ${date} — Mirai re-paced **${students.length}** students`,
     };
     activity.unshift(newItem);
     // Keep activity list bounded to 50 items.

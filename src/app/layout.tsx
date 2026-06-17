@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Mira — the autonomous AI tutor",
+  title: "Mirai — the autonomous AI tutor",
   description:
-    "Upload your course. Mira builds personalized practice for every learner, grades the math they write by hand, and tells you exactly who to pull aside next.",
+    "Upload your course. Mirai builds personalized practice for every learner, grades the math they write by hand, and tells you exactly who to pull aside next.",
 };
 
 export const viewport: Viewport = {
