@@ -1,4 +1,4 @@
-import { parseJSON, genId, LLMUnavailableError } from "../client";
+import { parseJSON, genId, LLMUnavailableError, chat, chatJSON, vision, LLM_ENABLED } from "../client";
 
 describe("parseJSON", () => {
   it("parses plain JSON object", () => {
@@ -66,5 +66,41 @@ describe("LLMUnavailableError", () => {
   it("carries message", () => {
     const err = new LLMUnavailableError("oops");
     expect(err.message).toBe("oops");
+  });
+});
+
+describe("LLM_ENABLED", () => {
+  it("is false when no API key is set in the test environment", () => {
+    expect(LLM_ENABLED).toBe(false);
+  });
+});
+
+describe("chat (LLM disabled)", () => {
+  it("throws LLMUnavailableError immediately", async () => {
+    await expect(chat([{ role: "user", content: "hello" }])).rejects.toThrow(
+      LLMUnavailableError,
+    );
+  });
+
+  it("error message mentions offline or missing key", async () => {
+    await expect(chat([{ role: "user", content: "hi" }])).rejects.toThrow(
+      /offline|not set/i,
+    );
+  });
+});
+
+describe("chatJSON (LLM disabled)", () => {
+  it("throws LLMUnavailableError immediately", async () => {
+    await expect(
+      chatJSON<{ x: number }>([{ role: "user", content: "json please" }]),
+    ).rejects.toThrow(LLMUnavailableError);
+  });
+});
+
+describe("vision (LLM disabled)", () => {
+  it("throws LLMUnavailableError immediately", async () => {
+    await expect(
+      vision("data:image/png;base64,abc", "read this"),
+    ).rejects.toThrow(LLMUnavailableError);
   });
 });
