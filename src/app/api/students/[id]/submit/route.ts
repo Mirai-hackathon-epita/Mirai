@@ -26,6 +26,7 @@ import {
 } from "@/lib/llm/client";
 import { updateMastery, masteryStatus, pct } from "@/lib/domain/mastery";
 import { makeEvent } from "@/lib/agent/events";
+import { fallbackGrade } from "@/lib/agent/grade";
 import { getNextExercise } from "@/lib/agent/exercise";
 import { EXERCISES, MISCONCEPTIONS } from "@/lib/seed/data";
 import type {
@@ -76,10 +77,17 @@ export async function POST(
       return NextResponse.json({ error: "student not found" }, { status: 404 });
     }
 
-    // Resolve the exercise (fall back to seed if not found)
-    const exercise =
-      (await getExerciseById(exerciseId)) ?? EXERCISES[0];
-    const conceptId = exercise?.conceptId ?? student.currentConceptId;
+    // Resolve the exercise. If the id is unknown we cannot grade honestly —
+    // falling back to a seed exercise would mark the answer against a
+    // different problem, so fail loudly instead.
+    const exercise = await getExerciseById(exerciseId);
+    if (!exercise) {
+      return NextResponse.json(
+        { error: `exercise "${exerciseId}" not found` },
+        { status: 404 },
+      );
+    }
+    const conceptId = exercise.conceptId ?? student.currentConceptId;
 
     // ── PLAN EVENT ───────────────────────────────────────────────────
     const planText = `Received ${viaOcr ? "OCR-scanned" : "text"} submission for exercise ${exerciseId} (concept: ${conceptId}). Running: grade → update mastery → diagnose → escalate → pre-generate next.`;
@@ -126,10 +134,10 @@ masteryDelta must be between -0.15 and 0.2. nextDifficulty between 1 and 10.`,
         };
       } catch (e) {
         if (!(e instanceof LLMUnavailableError)) throw e;
-        grade = fallbackGrade(answer, exercise.answer);
+        grade = fallbackGrade(answer, exercise);
       }
     } else {
-      grade = fallbackGrade(answer, exercise.answer);
+      grade = fallbackGrade(answer, exercise);
     }
 
     const gradeEvent = makeEvent(
@@ -351,39 +359,6 @@ masteryDelta must be between -0.15 and 0.2. nextDifficulty between 1 and 10.`,
 }
 
 // ── Helpers ──────────────────────────────────────────────────────────
-
-function fallbackGrade(answer: string, correctAnswer: string): GradeResult {
-  const normalised = answer.replace(/\s/g, "").toLowerCase();
-  const correct = normalised.includes("11/12") || normalised === correctAnswer.toLowerCase().replace(/\s/g, "");
-
-  if (correct) {
-    return {
-      correct: true,
-      readBack: answer,
-      steps: [
-        { step: "Find a common denominator: 12", ok: true },
-        { step: "Rewrite: 9/12 + 2/12", ok: true },
-        { step: "Add the numerators: 11/12", ok: true },
-      ],
-      failingStepIndex: null,
-      tutorMessage: "Great work! You found the common denominator and added correctly.",
-      nextDifficulty: 5,
-      masteryDelta: 0.15,
-    };
-  }
-
-  return {
-    correct: false,
-    readBack: answer,
-    steps: [
-      { step: "Find a common denominator", ok: false, note: "Check your common denominator first." },
-    ],
-    failingStepIndex: 0,
-    tutorMessage: "Not quite — remember to find a common denominator before adding the numerators.",
-    nextDifficulty: 3,
-    masteryDelta: -0.1,
-  };
-}
 
 function fallbackDiagnosis(conceptId: string): Diagnosis {
   const misc = MISCONCEPTIONS.find((m) => m.conceptId === conceptId)

@@ -1,7 +1,11 @@
 export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
-import { getStudent, getMastery, getConceptGraph } from "@/lib/data/repo";
+import {
+  getStudent,
+  getMastery,
+  getActiveConceptGraph,
+} from "@/lib/data/repo";
 import { prerequisitesOf } from "@/lib/domain/conceptGraph";
 import { MISCONCEPTIONS } from "@/lib/seed/data";
 import type { StudentGraphResponse } from "@/lib/domain/types";
@@ -13,16 +17,18 @@ export async function GET(
   try {
     const { id } = params;
 
-    const [student, masteryList] = await Promise.all([
+    // The graph must be the *published* course's graph, not the built-in
+    // fractions one — otherwise an uploaded course never reaches the student.
+    const [student, masteryList, graph] = await Promise.all([
       getStudent(id),
       getMastery(id),
+      getActiveConceptGraph(),
     ]);
 
     if (!student) {
       return NextResponse.json({ error: "student not found" }, { status: 404 });
     }
 
-    const graph = getConceptGraph();
     const focusConceptId = student.currentConceptId;
 
     // Build mastery map for fast lookup
@@ -31,7 +37,7 @@ export async function GET(
     );
 
     // Prerequisites of the focus concept with their mastery
-    const prereqIds = prerequisitesOf(focusConceptId);
+    const prereqIds = prerequisitesOf(focusConceptId, graph);
     const prerequisites = prereqIds.map((cid) => {
       const entry = masteryById[cid];
       if (entry) return entry;

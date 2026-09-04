@@ -11,7 +11,7 @@ import {
   getActivity,
   saveActivity,
   getTopicMastery,
-  getConceptGraph,
+  getActiveConceptGraph,
 } from "@/lib/data/repo";
 import { makeEvent } from "@/lib/agent/events";
 import { genId, chatJSON, LLM_ENABLED, LLMUnavailableError } from "@/lib/llm/client";
@@ -116,8 +116,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validate concept exists in graph
-    const graph = getConceptGraph();
+    // Validate concept exists in the *published* course graph
+    const graph = await getActiveConceptGraph();
     const concept = graph.concepts.find((c) => c.id === conceptId);
     if (!concept) {
       return NextResponse.json(
@@ -163,12 +163,10 @@ export async function POST(req: NextRequest) {
         });
         await saveMastery(student.id, updated);
 
-        // 2. Enqueue the shared probe exercise for this student. We reuse the
-        // single persisted `sharedProbe` (rather than creating a per-student
-        // copy via addExercise inside this Promise.all) because addExercise is
-        // a non-atomic read-modify-write on the shared exercises list — running
-        // it concurrently here races and loses entries. The re-probe queue is
-        // already per-student, so sharing one probe id is correct and safe.
+        // 2. Enqueue the shared probe exercise for this student. One probe is
+        // generated once and its id enqueued per student: the re-probe queue is
+        // already per-student, so sharing the probe body is correct and saves a
+        // generation call per learner.
         await pushReprobe(student.id, sharedProbe.id);
 
         // 3. Push a per-student feed event

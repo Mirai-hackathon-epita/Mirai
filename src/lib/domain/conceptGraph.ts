@@ -1,4 +1,4 @@
-import type { ConceptGraph } from "./types";
+import type { Concept, ConceptGraph } from "./types";
 
 // ─── Fractions concept prerequisite graph (DAG) ─────────────────────
 // Hardcoded for the demo topic, mirroring the skill-graph screen exactly.
@@ -85,15 +85,30 @@ export const FRACTIONS_GRAPH: ConceptGraph = {
   ],
 };
 
-export const CONCEPTS_BY_ID = Object.fromEntries(
-  FRACTIONS_GRAPH.concepts.map((c) => [c.id, c]),
-);
+/** Index a graph's concepts by id. */
+export function conceptsById(graph: ConceptGraph): Record<string, Concept> {
+  return Object.fromEntries(graph.concepts.map((c) => [c.id, c]));
+}
 
-export function conceptLabel(id: string): string {
-  return CONCEPTS_BY_ID[id]?.label ?? id;
+/** Index of the built-in fractions graph (the seeded default course). */
+export const CONCEPTS_BY_ID = conceptsById(FRACTIONS_GRAPH);
+
+// The helpers below take the graph they should read. It defaults to the
+// built-in fractions graph, but any code serving a *published* course must
+// pass the active graph (see repo.getActiveConceptGraph) — otherwise an
+// uploaded course never reaches the student.
+
+export function conceptLabel(
+  id: string,
+  graph: ConceptGraph = FRACTIONS_GRAPH,
+): string {
+  return conceptsById(graph)[id]?.label ?? id;
 }
 
 /** All prerequisite concept ids of a concept (direct edges only). */
-export function prerequisitesOf(conceptId: string): string[] {
-  return CONCEPTS_BY_ID[conceptId]?.prerequisites ?? [];
+export function prerequisitesOf(
+  conceptId: string,
+  graph: ConceptGraph = FRACTIONS_GRAPH,
+): string[] {
+  return conceptsById(graph)[conceptId]?.prerequisites ?? [];
 }

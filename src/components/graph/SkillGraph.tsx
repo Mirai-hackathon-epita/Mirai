@@ -5,39 +5,62 @@ import { C, FONT, statusColor } from "@/lib/ui/theme";
 import { Icon } from "@/components/ui";
 import { pct } from "@/lib/domain/mastery";
 import { FRACTIONS_GRAPH } from "@/lib/domain/conceptGraph";
-import type { ConceptMastery } from "@/lib/domain/types";
+import type { Concept, ConceptGraph, ConceptMastery } from "@/lib/domain/types";
 
-// Fixed column/row pixel offsets matching the design spec exactly.
-// Col 0 has 3 rows; other cols use 2 rows.
-const COL_X = [24, 250, 476, 702];
-const ROW_Y_COL0 = [70, 210, 350]; // col 0: 3 rows
-const ROW_Y = [120, 300]; // cols 1..3: 2 rows
+// Layout derived from each concept's {col,row}. The constants reproduce the
+// design spec exactly for the built-in fractions graph (col 0 has 3 rows at
+// 70/210/350, other columns 2 rows at 120/300, columns at 24/250/476/702) and
+// keep working for any published course graph, whatever its shape.
+const NODE_W = 168;
+const NODE_HALF_H = 26;
+const COL_STEP = 226;
+const COL_X0 = 24;
+const DENSE_Y0 = 70; // columns with 3+ rows
+const DENSE_STEP = 140;
+const SPARSE_Y0 = 120; // columns with 1–2 rows
+const SPARSE_STEP = 180;
 
-function nodeTop(col: number, row: number): number {
-  if (col === 0) return ROW_Y_COL0[row] ?? ROW_Y_COL0[0];
-  return ROW_Y[row] ?? ROW_Y[0];
+interface NodePos {
+  left: number;
+  top: number;
 }
 
 function nodeLeft(col: number): number {
-  return COL_X[col] ?? COL_X[0];
+  return COL_X0 + Math.max(0, col) * COL_STEP;
+}
+
+/** Pixel position of every concept, keyed by id. */
+function layoutGraph(graph: ConceptGraph): Record<string, NodePos> {
+  const rowsPerCol = new Map<number, number>();
+  for (const c of graph.concepts) {
+    const col = c.layout?.col ?? 0;
+    rowsPerCol.set(col, Math.max(rowsPerCol.get(col) ?? 0, (c.layout?.row ?? 0) + 1));
+  }
+
+  const positions: Record<string, NodePos> = {};
+  for (const c of graph.concepts) {
+    const col = c.layout?.col ?? 0;
+    const row = c.layout?.row ?? 0;
+    const dense = (rowsPerCol.get(col) ?? 1) >= 3;
+    positions[c.id] = {
+      left: nodeLeft(col),
+      top: dense ? DENSE_Y0 + row * DENSE_STEP : SPARSE_Y0 + row * SPARSE_STEP,
+    };
+  }
+  return positions;
 }
 
 interface NodeCardProps {
-  conceptId: string;
-  col: number;
-  row: number;
+  concept: Concept;
+  pos: NodePos;
   cm: ConceptMastery;
   isFocus: boolean;
   isSelected: boolean;
   onClick: () => void;
 }
 
-function NodeCard({ conceptId, col, row, cm, isFocus, isSelected, onClick }: NodeCardProps) {
-  const concept = FRACTIONS_GRAPH.concepts.find((c) => c.id === conceptId);
-  if (!concept) return null;
-
-  const left = nodeLeft(col);
-  const top = nodeTop(col, row);
+function NodeCard({ concept, pos, cm, isFocus, isSelected, onClick }: NodeCardProps) {
+  const { left, top } = pos;
   const isLocked = cm.status === "not-started" || cm.status === "locked";
   const isDeveloping = cm.status === "developing";
   const color = statusColor(cm.status);
@@ -85,7 +108,7 @@ function NodeCard({ conceptId, col, row, cm, isFocus, isSelected, onClick }: Nod
         position: "absolute",
         left,
         top,
-        width: 168,
+        width: NODE_W,
         minHeight: 52,
         background: bg,
         border,
@@ -251,86 +274,99 @@ interface Props {
   focusConceptId: string;
   selectedConceptId: string;
   onSelect: (id: string) => void;
+  /** The published course graph. Defaults to the built-in fractions graph. */
+  graph?: ConceptGraph;
 }
 
-/** SVG edge paths copied exactly from the design (Mirai.dc.html lines 381–388). */
-function Edges() {
+/**
+ * Prerequisite edges, derived from the graph rather than hardcoded, so a
+ * published course renders its own structure. Stroke styling reproduces the
+ * design: dashed terracotta into the focus node when it is the blocker, faint
+ * into a locked node, hairline otherwise.
+ */
+function Edges({
+  graph,
+  positions,
+  masteryMap,
+  focusConceptId,
+  width,
+  height,
+}: {
+  graph: ConceptGraph;
+  positions: Record<string, NodePos>;
+  masteryMap: Record<string, ConceptMastery>;
+  focusConceptId: string;
+  width: number;
+  height: number;
+}) {
   return (
     <svg
-      width="870"
-      height="430"
+      width={width}
+      height={height}
       style={{ position: "absolute", top: 0, left: 0, overflow: "visible" }}
     >
-      {/* col0 → common-denominators: 3 normal edges */}
-      <path
-        d="M192,96 C222,96 220,146 250,146"
-        fill="none"
-        stroke="rgba(22,26,34,0.18)"
-        strokeWidth={1.5}
-      />
-      <path
-        d="M192,236 C222,236 220,160 250,150"
-        fill="none"
-        stroke="rgba(22,26,34,0.18)"
-        strokeWidth={1.5}
-      />
-      <path
-        d="M192,376 C222,376 220,160 250,156"
-        fill="none"
-        stroke="rgba(22,26,34,0.18)"
-        strokeWidth={1.5}
-      />
-      {/* common-denominators → adding-unlike: dashed terracotta (weak link) */}
-      <path
-        d="M418,146 C448,146 446,146 476,146"
-        fill="none"
-        stroke={C.terracotta}
-        strokeWidth={2}
-        strokeDasharray="5 4"
-      />
-      {/* adding-like → adding-unlike: dashed terracotta (weak-link path) */}
-      <path
-        d="M418,326 C448,326 446,170 476,156"
-        fill="none"
-        stroke={C.terracotta}
-        strokeWidth={2}
-        strokeDasharray="5 4"
-      />
-      {/* common-denominators → comparing: normal */}
-      <path
-        d="M418,146 C448,146 446,300 476,316"
-        fill="none"
-        stroke="rgba(22,26,34,0.18)"
-        strokeWidth={1.5}
-      />
-      {/* adding-unlike → subtracting: faint (locked) */}
-      <path
-        d="M644,146 C674,146 672,146 702,146"
-        fill="none"
-        stroke="rgba(22,26,34,0.14)"
-        strokeWidth={1.5}
-      />
-      {/* comparing → mixed-numbers: faint (locked) */}
-      <path
-        d="M644,156 C674,170 672,310 702,326"
-        fill="none"
-        stroke="rgba(22,26,34,0.14)"
-        strokeWidth={1.5}
-      />
+      {graph.concepts.flatMap((target) => {
+        const to = positions[target.id];
+        if (!to) return [];
+        const status = masteryMap[target.id]?.status;
+        const isBlockedFocus =
+          target.id === focusConceptId &&
+          (status === "needs-work" || status === "developing");
+        const isLocked = status === "not-started" || status === "locked";
+
+        return target.prerequisites.flatMap((prereqId) => {
+          const from = positions[prereqId];
+          if (!from) return [];
+          const x1 = from.left + NODE_W;
+          const y1 = from.top + NODE_HALF_H;
+          const x2 = to.left;
+          const y2 = to.top + NODE_HALF_H;
+          return [
+            <path
+              key={`${prereqId}->${target.id}`}
+              d={`M${x1},${y1} C${x1 + 30},${y1} ${x2 - 30},${y2} ${x2},${y2}`}
+              fill="none"
+              stroke={
+                isBlockedFocus
+                  ? C.terracotta
+                  : isLocked
+                    ? "rgba(22,26,34,0.14)"
+                    : "rgba(22,26,34,0.18)"
+              }
+              strokeWidth={isBlockedFocus ? 2 : 1.5}
+              strokeDasharray={isBlockedFocus ? "5 4" : undefined}
+            />,
+          ];
+        });
+      })}
     </svg>
   );
 }
 
 /** Interactive skill graph canvas. */
-export function SkillGraph({ mastery, focusConceptId, selectedConceptId, onSelect }: Props) {
-  const masteryMap = Object.fromEntries(mastery.map((m) => [m.conceptId, m]));
+export function SkillGraph({
+  mastery,
+  focusConceptId,
+  selectedConceptId,
+  onSelect,
+  graph = FRACTIONS_GRAPH,
+}: Props) {
+  const masteryMap: Record<string, ConceptMastery> = Object.fromEntries(
+    mastery.map((m) => [m.conceptId, m]),
+  );
+  const positions = React.useMemo(() => layoutGraph(graph), [graph]);
+  const all = Object.values(positions);
+  // Keep the design's canvas size for the built-in graph; grow for larger ones.
+  const width = Math.max(870, ...all.map((p) => p.left + NODE_W + 30));
+  const height = Math.max(430, ...all.map((p) => p.top + 80));
 
   return (
     <div
       style={{
         flex: 1,
         position: "relative",
-        overflow: "hidden",
+        // Scrolls only when a published course is bigger than the canvas.
+        overflow: "auto",
         background: C.paper,
         backgroundImage:
           "radial-gradient(rgba(22,26,34,0.05) 1px, transparent 1px)",
@@ -342,20 +378,27 @@ export function SkillGraph({ mastery, focusConceptId, selectedConceptId, onSelec
           position: "absolute",
           top: 40,
           left: 40,
-          width: 870,
-          height: 430,
+          width,
+          height,
         }}
       >
-        <Edges />
-        {FRACTIONS_GRAPH.concepts.map((c) => {
+        <Edges
+          graph={graph}
+          positions={positions}
+          masteryMap={masteryMap}
+          focusConceptId={focusConceptId}
+          width={width}
+          height={height}
+        />
+        {graph.concepts.map((c) => {
           const cm = masteryMap[c.id];
-          if (!cm) return null;
+          const pos = positions[c.id];
+          if (!cm || !pos) return null;
           return (
             <NodeCard
               key={c.id}
-              conceptId={c.id}
-              col={c.layout.col}
-              row={c.layout.row}
+              concept={c}
+              pos={pos}
               cm={cm}
               isFocus={c.id === focusConceptId}
               isSelected={c.id === selectedConceptId}

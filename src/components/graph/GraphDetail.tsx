@@ -5,17 +5,20 @@ import Link from "next/link";
 import { C, FONT, statusColor } from "@/lib/ui/theme";
 import { MiraiMark, Icon } from "@/components/ui";
 import { pct } from "@/lib/domain/mastery";
-import { CONCEPTS_BY_ID } from "@/lib/domain/conceptGraph";
-import type { ConceptMastery } from "@/lib/domain/types";
+import { FRACTIONS_GRAPH, conceptsById } from "@/lib/domain/conceptGraph";
+import type { ConceptGraph, ConceptMastery } from "@/lib/domain/types";
 
 interface Props {
   conceptId: string;
   mastery: ConceptMastery[];
+  /** The published course graph. Defaults to the built-in fractions graph. */
+  graph?: ConceptGraph;
 }
 
 /** Right-hand detail panel for the skill graph. */
-export function GraphDetail({ conceptId, mastery }: Props) {
-  const concept = CONCEPTS_BY_ID[conceptId];
+export function GraphDetail({ conceptId, mastery, graph = FRACTIONS_GRAPH }: Props) {
+  const byId = conceptsById(graph);
+  const concept = byId[conceptId];
   const masteryMap = Object.fromEntries(mastery.map((m) => [m.conceptId, m]));
   const cm = masteryMap[conceptId];
 
@@ -45,7 +48,7 @@ export function GraphDetail({ conceptId, mastery }: Props) {
 
   // Prerequisite concepts with mastery
   const prereqs = concept.prerequisites.map((pid) => ({
-    concept: CONCEPTS_BY_ID[pid],
+    concept: byId[pid],
     cm: masteryMap[pid],
   })).filter((p) => p.concept && p.cm);
 

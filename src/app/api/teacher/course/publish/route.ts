@@ -8,9 +8,14 @@ import {
   saveMastery,
   getActivity,
   saveActivity,
+  saveStudent,
 } from "@/lib/data/repo";
 import { genId } from "@/lib/llm/client";
-import type { ConceptMastery, PublishCourseResponse } from "@/lib/domain/types";
+import type {
+  ConceptGraph,
+  ConceptMastery,
+  PublishCourseResponse,
+} from "@/lib/domain/types";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +34,24 @@ function initialStatus(
     return m && m.status === "mastered";
   });
   return allPrereqsMet ? "not-started" : "locked";
+}
+
+/**
+ * Entry point for a student in a freshly published graph: the first concept
+ * (in graph order) that is not yet mastered and whose prerequisites are all
+ * met. Falls back to a root concept, then to the first concept.
+ */
+function entryConcept(graph: ConceptGraph, mastery: ConceptMastery[]): string {
+  const byId = Object.fromEntries(mastery.map((m) => [m.conceptId, m]));
+  const mastered = (id: string) => byId[id]?.status === "mastered";
+
+  const teachable = graph.concepts.find(
+    (c) => !mastered(c.id) && c.prerequisites.every(mastered),
+  );
+  if (teachable) return teachable.id;
+
+  const root = graph.concepts.find((c) => c.prerequisites.length === 0);
+  return root?.id ?? graph.concepts[0]?.id ?? "";
 }
 
 export async function POST() {
@@ -85,6 +108,21 @@ export async function POST() {
     }
 
     await saveMastery(student.id, updatedMastery);
+
+    // A student still pointing at a concept the new course does not contain
+    // would be served exercises for a concept nobody teaches — move them to
+    // this graph's entry point instead.
+    const conceptIds = new Set(graph.concepts.map((c) => c.id));
+    if (!conceptIds.has(student.currentConceptId)) {
+      const next = entryConcept(graph, updatedMastery);
+      if (next) {
+        await saveStudent({
+          ...student,
+          currentConceptId: next,
+          currentTopicLabel: graph.topic,
+        });
+      }
+    }
   }
 
   // Append an activity item

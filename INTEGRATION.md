@@ -58,8 +58,14 @@ response types `DashboardResponse, StudentGraphResponse, NextExerciseResponse,
 SubmitResponse, ChatResponse, OcrResponse, AskResponse`.
 
 Concept graph: `@/lib/domain/conceptGraph` (`FRACTIONS_GRAPH`, `CONCEPTS_BY_ID`,
-`conceptLabel`, `prerequisitesOf`). Mastery math: `@/lib/domain/mastery`
+`conceptsById(graph)`, `conceptLabel(id, graph?)`, `prerequisitesOf(id, graph?)`).
+The helpers default to the built-in fractions graph — **server code serving a
+published course must pass `await getActiveConceptGraph()`**, or an uploaded
+course never reaches the student. Mastery math: `@/lib/domain/mastery`
 (`masteryStatus`, `studentStatus`, `updateMastery`, `MASTERY_THRESHOLD`, `pct`).
+Answer comparison: `@/lib/domain/answer` (`normalizeAnswer`, `toNumber`,
+`answersMatch`) — grades a submission against its own exercise, including a
+worked chain like `"3/4 + 1/6 = ... = 11/12"`.
 
 ## Client data access (frontend) — `@/lib/ui/api`
 
@@ -83,9 +89,13 @@ gracefully — never blank-screen.
 
 - `@/lib/data/repo` — the only module that touches the store. `ensureSeeded`,
   `getStudents/getStudent/saveStudent`, `getMastery/saveMastery`,
-  `getConceptGraph`, `getFeed/pushFeed`, `getExercises/getExerciseById/addExercise`,
+  `getActiveConceptGraph/saveActiveConceptGraph`, `getFeed/pushFeed`,
+  `getExercises/getExerciseById/addExercise`,
   `getMisconceptions/saveMisconceptions`, `pushSubmission/getSubmissions`,
   `getTeacher/getActivity/getClassStats/getTopicMastery/getInsight`.
+  `addExercise` writes one key per exercise — **an agent-generated exercise must
+  be persisted before it is served**, or the submit route cannot resolve it and
+  refuses to grade (404).
 - `@/lib/store/kv` — KV backend (Redis or in-memory). Use repo, not kv, directly.
 - `@/lib/llm/client` — `LLM_ENABLED`, `chat(messages,opts)`, `chatJSON<T>(messages,opts)`,
   `vision(imageUrl,prompt,opts)`, `parseJSON`, `genId(prefix)`. **Every LLM call
@@ -106,7 +116,7 @@ All routes `export const dynamic = "force-dynamic"`. JSON in/out. Shapes are the
 | GET | `/api/students/:id/graph` | — | `StudentGraphResponse` |
 | GET | `/api/students/:id/exercise/next` | — | `NextExerciseResponse` |
 | GET | `/api/students/:id/feed` | — | `{feed: FeedEvent[]}` |
-| POST | `/api/students/:id/submit` | `{exerciseId, answer, viaOcr?}` | `SubmitResponse` |
+| POST | `/api/students/:id/submit` | `{exerciseId, answer, viaOcr?}` | `SubmitResponse` (404 on unknown `exerciseId`) |
 | POST | `/api/students/:id/chat` | `{message}` | `ChatResponse` |
 | POST | `/api/ocr` | `{imageUrl?} | {sample?}` | `OcrResponse` |
 

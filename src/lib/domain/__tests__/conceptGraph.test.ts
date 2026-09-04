@@ -79,3 +79,58 @@ describe("prerequisitesOf", () => {
     expect(prerequisitesOf("does-not-exist")).toEqual([]);
   });
 });
+
+// ── Graph-aware helpers ──────────────────────────────────────────────
+// These guard the "uploaded course never reaches the student" bug: helpers
+// used to be bound to the built-in fractions graph, so a published course's
+// concepts resolved to nothing.
+
+import { conceptsById } from "../conceptGraph";
+import type { ConceptGraph } from "../types";
+
+const PUBLISHED: ConceptGraph = {
+  topic: "Photosynthesis",
+  concepts: [
+    {
+      id: "light-energy",
+      label: "Light energy",
+      prerequisites: [],
+      blurb: "Where the energy comes from.",
+      layout: { col: 0, row: 0 },
+    },
+    {
+      id: "chlorophyll",
+      label: "Chlorophyll",
+      prerequisites: ["light-energy"],
+      blurb: "The pigment that captures light.",
+      layout: { col: 1, row: 0 },
+    },
+  ],
+};
+
+describe("conceptsById", () => {
+  it("indexes whichever graph it is given", () => {
+    const byId = conceptsById(PUBLISHED);
+    expect(Object.keys(byId)).toEqual(["light-energy", "chlorophyll"]);
+    expect(byId["chlorophyll"].label).toBe("Chlorophyll");
+  });
+});
+
+describe("conceptLabel / prerequisitesOf with a published graph", () => {
+  it("resolves concepts from the published graph", () => {
+    expect(conceptLabel("chlorophyll", PUBLISHED)).toBe("Chlorophyll");
+    expect(prerequisitesOf("chlorophyll", PUBLISHED)).toEqual(["light-energy"]);
+  });
+
+  it("does not leak fractions concepts into another course", () => {
+    expect(conceptLabel("mixed-numbers", PUBLISHED)).toBe("mixed-numbers");
+    expect(prerequisitesOf("adding-unlike-fractions", PUBLISHED)).toEqual([]);
+  });
+
+  it("still defaults to the built-in fractions graph", () => {
+    expect(conceptLabel("mixed-numbers")).toBe("Mixed numbers");
+    expect(prerequisitesOf("comparing-fractions")).toEqual([
+      "common-denominators",
+    ]);
+  });
+});

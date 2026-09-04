@@ -43,6 +43,9 @@ const K = {
   feed: (id: string) => `mira:feed:${id}`,
   submissions: (id: string) => `mira:submissions:${id}`,
   exercises: "mira:exercises",
+  /** Agent-generated exercises live under their own key: a single atomic
+   *  write, so concurrent generation never races the shared seed pool. */
+  exercise: (id: string) => `mira:exercise:${id}`,
   misconceptions: "mira:misconceptions",
   teacher: "mira:teacher",
   activity: "mira:activity",
@@ -142,11 +145,6 @@ export async function saveMastery(
   await kv().setJSON(K.mastery(studentId), mastery);
 }
 
-// ── Concept graph (static) ──
-export function getConceptGraph(): ConceptGraph {
-  return FRACTIONS_GRAPH;
-}
-
 // ── Feed ──
 export async function getFeed(
   studentId: string,
@@ -168,15 +166,21 @@ export async function getExercises(conceptId?: string): Promise<Exercise[]> {
 }
 
 export async function getExerciseById(id: string): Promise<Exercise | null> {
+  await ensureSeeded();
+  const generated = await kv().getJSON<Exercise>(K.exercise(id));
+  if (generated) return generated;
   const all = await getExercises();
   return all.find((e) => e.id === id) ?? null;
 }
 
+/**
+ * Persist an agent-generated exercise so it can be graded later.
+ * Written to its own key (one SET) — `getExerciseById` reads it back.
+ * The seeded pool under K.exercises stays the fallback rotation.
+ */
 export async function addExercise(ex: Exercise): Promise<void> {
   await ensureSeeded();
-  const all = (await kv().getJSON<Exercise[]>(K.exercises)) ?? [];
-  all.push(ex);
-  await kv().setJSON(K.exercises, all);
+  await kv().setJSON(K.exercise(ex.id), ex);
 }
 
 // ── Misconceptions (shared diagnostic memory) ──

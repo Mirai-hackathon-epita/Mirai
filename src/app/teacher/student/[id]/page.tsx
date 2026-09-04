@@ -9,7 +9,12 @@ import { C, FONT } from "@/lib/ui/theme";
 import { Avatar } from "@/components/ui";
 import { SkillGraph } from "@/components/graph/SkillGraph";
 import { GraphDetail } from "@/components/graph/GraphDetail";
-import type { ConceptMastery, Student, StudentGraphResponse } from "@/lib/domain/types";
+import type {
+  ConceptGraph,
+  ConceptMastery,
+  Student,
+  StudentGraphResponse,
+} from "@/lib/domain/types";
 
 interface Props {
   params: { id: string };
@@ -35,6 +40,7 @@ export default function SkillGraphPage({ params }: Props) {
   const [mastery, setMastery] = React.useState<ConceptMastery[]>(seed.mastery);
   const [focusConceptId, setFocusConceptId] = React.useState(seed.focusConceptId);
   const [selectedConceptId, setSelectedConceptId] = React.useState(seed.focusConceptId);
+  const [graph, setGraph] = React.useState<ConceptGraph>(FRACTIONS_GRAPH);
 
   // Try live API; keep seed on failure
   React.useEffect(() => {
@@ -46,6 +52,7 @@ export default function SkillGraphPage({ params }: Props) {
       .then((d) => {
         setStudent(d.student);
         setMastery(d.mastery);
+        if (d.graph?.concepts?.length) setGraph(d.graph);
         setFocusConceptId(d.focusConceptId);
         setSelectedConceptId(d.focusConceptId);
       })
@@ -174,12 +181,17 @@ export default function SkillGraphPage({ params }: Props) {
       {/* Body: graph + detail panel */}
       <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
         <SkillGraph
+          graph={graph}
           mastery={mastery}
           focusConceptId={focusConceptId}
           selectedConceptId={selectedConceptId}
           onSelect={setSelectedConceptId}
         />
-        <GraphDetail conceptId={selectedConceptId} mastery={mastery} />
+        <GraphDetail
+          conceptId={selectedConceptId}
+          mastery={mastery}
+          graph={graph}
+        />
       </div>
     </div>
   );
