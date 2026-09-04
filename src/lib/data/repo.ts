@@ -4,7 +4,6 @@ import { FRACTIONS_GRAPH } from "@/lib/domain/conceptGraph";
 import type {
   ActivityItem,
   CallRequest,
-  ClassStats,
   ConceptGraph,
   ConceptMastery,
   Course,
@@ -15,7 +14,6 @@ import type {
   Student,
   Submission,
   Teacher,
-  TopicMastery,
 } from "@/lib/domain/types";
 import {
   ACTIVITY,
@@ -50,6 +48,9 @@ const K = {
   teacher: "mira:teacher",
   activity: "mira:activity",
   classStats: "mira:classStats",
+  /** Class average captured the first time the dashboard is computed, so
+   *  the "delta" card measures real movement instead of a seeded number. */
+  classBaseline: "mira:classStats:baseline",
   topicMastery: "mira:topicMastery",
   insight: "mira:insight",
   // Teacher-side keys (Phase 0+)
@@ -219,20 +220,24 @@ export async function getActivity(): Promise<ActivityItem[]> {
   return (await kv().getJSON<ActivityItem[]>(K.activity)) ?? ACTIVITY;
 }
 
-export async function getClassStats(): Promise<ClassStats> {
+/**
+ * The class average to measure progress against. Captured lazily on first read
+ * so a fresh store (or a fresh Redis addon) anchors on where the class started.
+ */
+export async function getOrSetClassBaseline(
+  currentAvg: number,
+): Promise<number> {
   await ensureSeeded();
-  return (await kv().getJSON<ClassStats>(K.classStats)) ?? CLASS_STATS;
+  const stored = await kv().getJSON<number>(K.classBaseline);
+  if (typeof stored === "number") return stored;
+  await kv().setJSON(K.classBaseline, currentAvg);
+  return currentAvg;
 }
 
-export async function getTopicMastery(): Promise<TopicMastery[]> {
-  await ensureSeeded();
-  return (await kv().getJSON<TopicMastery[]>(K.topicMastery)) ?? TOPIC_MASTERY;
-}
-
-export async function getInsight(): Promise<string> {
-  await ensureSeeded();
-  return (await kv().getJSON<string>(K.insight)) ?? CLASS_INSIGHT;
-}
+// Class aggregates (stats / topic mastery / insight) are NOT read back from
+// the store: they are derived from live student mastery in
+// `@/lib/agent/classSnapshot`. The seeded keys remain only as the initial
+// placeholder the UI renders before its first fetch resolves.
 
 // ── Active course ──
 export async function getActiveCourse(): Promise<Course> {

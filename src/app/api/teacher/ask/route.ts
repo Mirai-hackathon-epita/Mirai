@@ -2,18 +2,11 @@ export const dynamic = "force-dynamic";
 
 import { NextRequest, NextResponse } from "next/server";
 import {
-  getClassStats,
-  getInsight,
-  getStudents,
-} from "@/lib/data/repo";
-import {
-  chat,
-  LLM_ENABLED,
-  LLMUnavailableError,
-} from "@/lib/llm/client";
-import { CLASS_INSIGHT } from "@/lib/seed/data";
+  describeClass,
+  getClassSnapshot,
+} from "@/lib/agent/classSnapshot";
+import { chat, LLM_ENABLED, LLMUnavailableError } from "@/lib/llm/client";
 import type { AskResponse } from "@/lib/domain/types";
-import { pct } from "@/lib/domain/mastery";
 
 export async function POST(req: NextRequest) {
   try {
@@ -24,52 +17,31 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "question required" }, { status: 400 });
     }
 
-    let answer: string;
+    // Same snapshot the dashboard renders, so the assistant and the cards
+    // never disagree about the class.
+    const snapshot = await getClassSnapshot();
+    let answer = snapshot.computedInsight;
 
     if (LLM_ENABLED) {
       try {
-        const [classStats, insight, students] = await Promise.all([
-          getClassStats(),
-          getInsight(),
-          getStudents(),
-        ]);
-
-        const flaggedSummary = students
-          .filter((s) => s.flag != null)
-          .map(
-            (s) =>
-              `${s.name} (mastery ${pct(s.overallMastery)}%): ${s.flag!.detail}`,
-          )
-          .join("\n");
-
-        const context = [
-          `Class stats: average mastery ${pct(classStats.avgMastery)}%, ${classStats.needsAttention} students need attention.`,
-          `Class insight: ${insight}`,
-          flaggedSummary
-            ? `Flagged students:\n${flaggedSummary}`
-            : "No students flagged.",
-        ].join("\n\n");
-
         answer = await chat(
           [
             {
               role: "system",
               content:
-                "You are Mirai, the autonomous AI tutor assistant. Answer the teacher's question about class progress using the data provided. Be concise and actionable.",
+                "You are Mirai, the autonomous AI tutor assistant. Answer the teacher's question using only the class data provided. Be concise and actionable. If the data does not cover the question, say so.",
             },
             {
               role: "user",
-              content: `Context:\n${context}\n\nTeacher's question: ${question}`,
+              content: `Class state:\n${describeClass(snapshot)}\n\nTeacher's question: ${question}`,
             },
           ],
           { temperature: 0.4, maxTokens: 400 },
         );
       } catch (e) {
         if (!(e instanceof LLMUnavailableError)) throw e;
-        answer = CLASS_INSIGHT;
+        // keep the deterministic reading
       }
-    } else {
-      answer = CLASS_INSIGHT;
     }
 
     const resp: AskResponse = { answer };

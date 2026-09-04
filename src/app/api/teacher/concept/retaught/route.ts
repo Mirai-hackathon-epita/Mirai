@@ -10,10 +10,10 @@ import {
   addExercise,
   getActivity,
   saveActivity,
-  getTopicMastery,
   getActiveConceptGraph,
 } from "@/lib/data/repo";
 import { makeEvent } from "@/lib/agent/events";
+import { getClassSnapshot } from "@/lib/agent/classSnapshot";
 import { genId, chatJSON, LLM_ENABLED, LLMUnavailableError } from "@/lib/llm/client";
 import { EXERCISES } from "@/lib/seed/data";
 import type {
@@ -193,8 +193,9 @@ export async function POST(req: NextRequest) {
     const existingActivity = await getActivity();
     await saveActivity([activityItem, ...existingActivity]);
 
-    // 5. Return current topic mastery + the new activity item
-    const topicMastery = await getTopicMastery();
+    // 5. Return topic mastery recomputed from the mastery we just lowered,
+    //    so the teacher sees the bars move rather than a stale seed value.
+    const { topicMastery } = await getClassSnapshot();
 
     const resp: RetaughtResponse = {
       topicMastery,

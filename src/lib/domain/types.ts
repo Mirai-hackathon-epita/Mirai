@@ -180,8 +180,11 @@ export interface ClassStats {
 }
 
 export interface TopicMastery {
-  topic: string;
+  topic: string; // human label, e.g. the concept label
   mastery: number; // 0..1
+  /** Concept this row aggregates, when it maps to one in the active graph.
+   *  "Mark re-taught" targets this rather than a slug of the label. */
+  conceptId?: string;
 }
 
 /** An item in Mirai's class-level activity log. */

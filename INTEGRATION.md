@@ -96,6 +96,12 @@ gracefully — never blank-screen.
   `addExercise` writes one key per exercise — **an agent-generated exercise must
   be persisted before it is served**, or the submit route cannot resolve it and
   refuses to grade (404).
+- `@/lib/agent/classSnapshot` — `getClassSnapshot()`, `describeClass()`,
+  `getClassInsight()`. Class stats, topic mastery and the insight sentence are
+  **derived from live student mastery** (pure helpers in
+  `@/lib/domain/classStats`), never read back from the seeded keys — the
+  dashboard has to move when a student works. The LLM insight is cached for
+  60s because the dashboard polls.
 - `@/lib/store/kv` — KV backend (Redis or in-memory). Use repo, not kv, directly.
 - `@/lib/llm/client` — `LLM_ENABLED`, `chat(messages,opts)`, `chatJSON<T>(messages,opts)`,
   `vision(imageUrl,prompt,opts)`, `parseJSON`, `genId(prefix)`. **Every LLM call
@@ -111,7 +117,7 @@ All routes `export const dynamic = "force-dynamic"`. JSON in/out. Shapes are the
 
 | Method | Path | Body | Returns |
 |---|---|---|---|
-| GET | `/api/teacher/dashboard` | — | `DashboardResponse` |
+| GET | `/api/teacher/dashboard` | — | `DashboardResponse` (polled every 5s by the teacher screen) |
 | POST | `/api/teacher/ask` | `{question}` | `AskResponse` |
 | GET | `/api/students/:id/graph` | — | `StudentGraphResponse` |
 | GET | `/api/students/:id/exercise/next` | — | `NextExerciseResponse` |

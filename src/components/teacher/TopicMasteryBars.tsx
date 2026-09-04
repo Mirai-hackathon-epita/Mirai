@@ -12,18 +12,18 @@ function topicColor(mastery: number): string {
   return mastery < 0.6 ? C.terracotta : C.green;
 }
 
-// Concept ids are derived from a simple slug of the topic label used in the
-// seed data. The TopicMastery type only carries a human label, so we reverse
-// it via a lookup map seeded from the known fractions graph.
-// When the active graph changes (Phase A / course upload), the teacher can
-// re-teach whichever topic they just addressed — the conceptId sent is just
-// the slug form of the label they clicked.
-function topicToConceptId(topic: string): string {
-  return topic
-    .toLowerCase()
-    .replace(/\s+&\s+/g, "-")
-    .replace(/\s+/g, "-")
-    .replace(/[^a-z0-9-]/g, "");
+// Rows computed from the active graph carry the concept they aggregate, so
+// "mark re-taught" targets a real concept id. Slugging the label is only a
+// fallback for rows that predate that field — it rarely resolves to a concept.
+function conceptIdOf(t: TopicMastery): string {
+  return (
+    t.conceptId ??
+    t.topic
+      .toLowerCase()
+      .replace(/\s+&\s+/g, "-")
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "")
+  );
 }
 
 export interface TopicMasteryBarsProps {
@@ -37,8 +37,8 @@ export function TopicMasteryBars({ topics, onRetaught }: TopicMasteryBarsProps) 
   // Track which concept is currently being re-taught (optimistic loading state)
   const [pending, setPending] = React.useState<string | null>(null);
 
-  async function handleRetaught(topic: string) {
-    const conceptId = topicToConceptId(topic);
+  async function handleRetaught(t: TopicMastery) {
+    const conceptId = conceptIdOf(t);
     if (pending) return; // debounce
     setPending(conceptId);
     try {
@@ -66,10 +66,10 @@ export function TopicMasteryBars({ topics, onRetaught }: TopicMasteryBarsProps) 
       </h4>
       <div style={{ display: "flex", flexDirection: "column", gap: 13 }}>
         {topics.map((t) => {
-          const cid = topicToConceptId(t.topic);
+          const cid = conceptIdOf(t);
           const isLoading = pending === cid;
           return (
-            <div key={t.topic}>
+            <div key={cid}>
               <div
                 style={{
                   display: "flex",
@@ -85,7 +85,7 @@ export function TopicMasteryBars({ topics, onRetaught }: TopicMasteryBarsProps) 
                     {pct(t.mastery)}%
                   </span>
                   <button
-                    onClick={() => handleRetaught(t.topic)}
+                    onClick={() => handleRetaught(t)}
                     disabled={isLoading || pending !== null}
                     style={{
                       fontSize: 11,

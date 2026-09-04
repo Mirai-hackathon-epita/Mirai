@@ -34,6 +34,10 @@ import { formatServerTime } from "@/lib/ui/format";
 
 type FlaggedStudent = Student & { flag: FlagInfo };
 
+/** Dashboard refresh interval. Fast enough that an escalation shows up while
+ *  the teacher is still looking at the student who caused it. */
+const POLL_MS = 5000;
+
 function seedFlagged(): FlaggedStudent[] {
   return STUDENTS.filter(
     (s): s is FlaggedStudent => s.flag != null,
@@ -75,9 +79,39 @@ export default function TeacherDashboard() {
       });
   }
 
-  // Try live API; keep seed on failure
+  // Poll so the dashboard is actually live: an escalation raised by a
+  // student's agent has to surface here without the teacher reloading. Paused
+  // while the tab is hidden so a projector left open overnight stops polling.
   React.useEffect(() => {
     fetchDashboard();
+
+    let timer: ReturnType<typeof setInterval> | null = null;
+
+    function start() {
+      if (timer === null) timer = setInterval(fetchDashboard, POLL_MS);
+    }
+    function stop() {
+      if (timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+    function onVisibility() {
+      if (document.visibilityState === "visible") {
+        fetchDashboard();
+        start();
+      } else {
+        stop();
+      }
+    }
+
+    if (document.visibilityState === "visible") start();
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

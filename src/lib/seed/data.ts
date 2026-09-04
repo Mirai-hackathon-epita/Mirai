@@ -22,7 +22,9 @@ export const TEACHER: Teacher = {
   subject: "Grade 7 · Math",
 };
 
-export const STUDENTS: Student[] = [
+// Declared mastery is derived from MASTERY below, not written here — see
+// STUDENTS at the end of this block.
+const SEED_STUDENTS: Student[] = [
   {
     id: "maya",
     name: "Maya Chen",
@@ -275,6 +277,26 @@ export const EXERCISES: Exercise[] = [
 
 // Shared diagnostic memory — seeded so the demo can show "recognised a known
 // misconception, skipped the probe" (PLAN §5.7).
+/**
+ * Mean mastery over the concepts a student has actually attempted — the same
+ * rule the submit route applies after every answer. Deriving it here keeps the
+ * seed self-consistent: a hand-written overall that disagreed with the concept
+ * rows made the class average jump on the first submission, in the wrong
+ * direction.
+ */
+function overallFrom(rows: ConceptMastery[]): number {
+  const attempted = rows.filter((r) => r.attempts > 0);
+  if (attempted.length === 0) return 0;
+  const mean =
+    attempted.reduce((sum, r) => sum + r.mastery, 0) / attempted.length;
+  return Number(mean.toFixed(3));
+}
+
+export const STUDENTS: Student[] = SEED_STUDENTS.map((s) => ({
+  ...s,
+  overallMastery: overallFrom(MASTERY[s.id] ?? []),
+}));
+
 export const MISCONCEPTIONS: Misconception[] = [
   {
     id: "misc-add-across",
@@ -385,4 +407,4 @@ export const TOPIC_MASTERY: TopicMastery[] = [
 export const CLASS_INSIGHT =
   "60% of the class stalls at the same step — finding a common denominator. Re-teach that move first in tutorial and three of the four flags should clear.";
 
-export const SEED_VERSION = 4;
+export const SEED_VERSION = 5;
